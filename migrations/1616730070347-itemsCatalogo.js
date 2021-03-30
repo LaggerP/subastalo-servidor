@@ -1,5 +1,5 @@
 'use strict'
-const dbConnection = require('../database')
+const dbConn = require('../database')
 const sql = require ('mssql');
 
 
@@ -16,20 +16,7 @@ module.exports.up = function (next) {
     constraint fk_itemsCatalogo_productos foreign key (producto) references productos
   )`;
 
-  sql.connect(dbConnection, (err) => {
-    if (err) console.log(err);
-
-    console.log('Connection to DB established');
-
-    let request = new sql.Request();
-    request.query(sqlQuery, (err, result) => {
-      if (err)
-        console.log(err);
-      else
-        next(); console.log(result)
-    })
-
-  });
+  dbConn.migrate(sqlQuery, next);
 }
 
 module.exports.down = function (next) {

@@ -1,9 +1,12 @@
+require('dotenv').config()
+const sql = require('mssql');
+
 const config = {
-  server: process.env.DB_SERVER || "localhost",
-  user: process.env.DB_USER || "sa",
-  password: process.env.DB_PASSWORD || "rootSubastalo0*",
-  database: process.env.DB_NAME || "subastalo",
-  port: process.env.DB_PORT || 1433,
+  server: process.env.DB_SERVER,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: parseInt(process.env.DB_PORT, 10),
   pool: {
     max: 10,
     min: 0,
@@ -15,5 +18,36 @@ const config = {
 };
 
 
+module.exports.migrate = (_query, next) => {
+  console.log(_query)
 
-module.exports = config;
+  sql.connect(config, (err) => {
+    if (err) console.log(err);
+
+    console.log('Connection to DB established');
+
+    let request = new sql.Request();
+    request.query(_query, (err, result) => {
+      if (err)
+        console.log(err);
+      else
+        console.log(result); next();
+    })
+  });
+};
+
+module.exports.service = (_query, callback) => {
+
+  sql.connect(config, (err) => {
+    if (err) callback(err); console.log(err);
+
+    let request = new sql.Request();
+    request.query(_query, (err, result)=> {
+      if (err)
+        callback(err);
+      
+      else
+        console.log(result); callback(null, result);
+    })
+  });
+};

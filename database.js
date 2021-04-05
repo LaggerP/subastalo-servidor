@@ -43,11 +43,21 @@ module.exports.service = (_query, callback) => {
 
     let request = new sql.Request();
     request.query(_query, (err, result)=> {
-      if (err)
-        callback(err);
-      
-      else
-        console.log(result); callback(null, result);
+      if (err) callback(err);
+      else callback(null, result);
+    })
+  });
+};
+
+module.exports.insertDb = (_query) => {
+  console.log(_query);
+
+  sql.connect(config, (err) => {
+    if (err) return err;
+    let request = new sql.Request();
+    request.query(_query, (err, result)=> {
+      if (err) return err;
+      else return result;
     })
   });
 };

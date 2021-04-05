@@ -1,13 +1,11 @@
 'use strict'
-const dbConn = require('../database')
-const sql = require('mssql');
-
+const dbConn = require('../database');
 
 module.exports.up = function (next) {
   const sqlQuery = `create table personas(
     identificador int not null identity,
     email varchar(50) not null,
-    password char(128) not null,
+    password varchar(60) not null,
     documento varchar(20) not null,
     nombre varchar(150) not null,
     direccion varchar(250),

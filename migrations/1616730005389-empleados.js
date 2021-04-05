@@ -1,7 +1,5 @@
 'use strict'
 const dbConn = require('../database')
-const sql = require ('mssql');
-
 
 module.exports.up = function (next) {
   const sqlQuery = `create table empleados(

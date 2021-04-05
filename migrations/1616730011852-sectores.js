@@ -1,7 +1,5 @@
 'use strict'
 const dbConn = require('../database')
-const sql = require ('mssql');
-
 
 module.exports.up = function (next) {
   const sqlQuery = `create table sectores(
@@ -13,7 +11,6 @@ module.exports.up = function (next) {
     constraint fk_sectores_empleados foreign key (responsableSector) references empleados
   )`;
 
- 
   dbConn.migrate(sqlQuery, next);
 }
 

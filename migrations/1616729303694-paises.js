@@ -1,6 +1,5 @@
 'use strict'
 const dbConn = require('../database')
-const sql = require ('mssql');
 
 module.exports.up = function (next) {
   const sqlQuery = `create table paises(
@@ -13,9 +12,7 @@ module.exports.up = function (next) {
     constraint pk_paises primary key (numero)
   )`;
 
-
   dbConn.migrate(sqlQuery, next);
-
 }
 
 module.exports.down = function (next) {

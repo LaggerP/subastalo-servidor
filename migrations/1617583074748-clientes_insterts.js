@@ -18,3 +18,13 @@ module.exports.up = function (next) {
 module.exports.down = function (next) {
   next()
 }
+
+
+/**
+ * 
+ * 
+  (3,2,'si','especial',1),
+  (4,3,'si','plata',1),
+  (5,4,'si','oro',1),
+  (6,5,'si','platino',1)
+ */

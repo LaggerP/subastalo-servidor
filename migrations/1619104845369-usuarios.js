@@ -2,12 +2,13 @@
 const dbConn = require('../database');
 
 module.exports.up = function (next) {
-  const sqlQuery = `create table usuariosLogin(
-    identificador int not null identity,
+  const sqlQuery = `create table usuarios(
+    identificador int not null,
     email varchar(50) not null,
     password varchar(60) not null,
-    constraint pk_usuariosLogin primary key (identificador),
-    constraint fk_usuarisoLogin_personas foreign key (identificador) references personas
+    primerInicio bit not null,
+    constraint pk_usuarios primary key (identificador),
+    constraint fk_usuarios_personas foreign key (identificador) references personas
   )`;
 
   dbConn.migrate(sqlQuery, next);

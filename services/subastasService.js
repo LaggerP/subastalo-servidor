@@ -2,11 +2,11 @@ require('dotenv').config()
 const dbConn = require('../database')
 
 /**
-* @description obtiene toda las subastas activas y futuras.
-* @param callback - es el error o resultado exitoso.
-*/
+ * @description obtiene toda las subastas activas y futuras.
+ * @param callback - es el error o resultado exitoso.
+ */
 exports.getAllSubastas = (callback) => {
-   const sql = `
+  const sql = `
    SELECT s.identificador idSubasta,
    s.fecha         fechaSubasta,
    s.hora          horaSubasta,
@@ -20,17 +20,17 @@ FROM subastas s
      JOIN subastadores s2 on s2.identificador = s.subastador
      JOIN personas p on s2.identificador = p.identificador
 WHERE s.fecha >= GETDATE();`
-    dbConn.service(sql, callback)
+  dbConn.service(sql, callback)
 }
 
 /**
-* @description obtiene toda las subastas activas y futuras.
-* @param idSubasta - id correspondiente a la subasta. Necesario para traer el catalogo 
-* @param callback - es el error o resultado exitoso.
-* @fixme PERO SUPER FIXME, ESTO ES UN DESASTRE! MEJORAR ESOS ASQUEROSOS JOINS (ADEMAS NI SE SI FUNCIONA) 
-*/
+ * @description obtiene el catalogo de una subasta en particular a partir de su idSubasta.
+ * @param idSubasta - id correspondiente a la subasta. Necesario para traer el catalogo
+ * @param callback - es el error o resultado exitoso.
+ * @fixme PERO SUPER FIXME, ESTO ES UN DESASTRE! MEJORAR ESOS ASQUEROSOS JOINS (ADEMAS NI SE SI FUNCIONA)
+ */
 exports.getCatalogo = (idSubasta, callback) => {
-    const sql = `
+  const sql = `
     SELECT s.identificador idSubasta,
     s.fecha         fechaSubasta,
     s.hora          horaSubasta,
@@ -58,5 +58,5 @@ FROM subastas s
       JOIN personas p2 on d.identificador = p2.identificador
      JOIN fotos f on p.identificador = f.producto
  WHERE s.identificador = '${idSubasta}'`
-     dbConn.service(sql, callback)
- }
+  dbConn.service(sql, callback)
+}

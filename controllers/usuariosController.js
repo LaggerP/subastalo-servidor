@@ -6,21 +6,16 @@ const personaService = require('../services/personasService')
 
 exports.loginController = (req, res) => {
    usuariosService.loginUsuario(req.body, (error, result) => {
-      console.log(result.identificador)
       if (result) {
-         //traer toda la data asociada al usuario
          let token = jwt.sign({
             id: result.identificador
          }, process.env.SECRET_JWT, {
             expiresIn: 86400 // expires in 24 hours
          });
-
          result.token = token
-
          return res.status(200).json(result)
 
       } else res.status(500).json('Error al iniciar sesión');
-
    })
 }
 
@@ -34,7 +29,6 @@ exports.loginController = (req, res) => {
 exports.checkUserValidation = (req, res) => {
    usuariosService.checkValidateusuariosServiceervice(req.body, (error, result) => {
       if (error) return res.status(500).json('Error al corroborar validación de usuario');
-
       else if (result.recordset[0] !== null) {
          let sendJson = {
             id: result.recordset[0].identificador,
@@ -45,7 +39,6 @@ exports.checkUserValidation = (req, res) => {
          }
          return res.status(200).json(sendJson)
       }
-
    })
 }
 

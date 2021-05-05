@@ -10,8 +10,9 @@ const bcrypt = require('bcrypt');
 */
 exports.registerPersona = (persona, callback) => {
     const { documento, nombre, direccion } = persona;
-    const sql = `INSERT INTO personas (documento, nombre, direccion, estado, foto) VALUES
-    ('${documento}', '${nombre}', '${direccion}', 'inactivo', convert(varbinary,'${1010101}')) SELECT SCOPE_IDENTITY() AS identificador`
+    const sql = `INSERT INTO personas (documento, nombre, direccion, estado, foto)
+    VALUES ('${documento}', '${nombre}', '${direccion}', 'inactivo', convert(varbinary, '${1010101}'))
+    SELECT SCOPE_IDENTITY() AS identificador`
 
     dbConn.service(sql, callback)
 }

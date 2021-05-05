@@ -34,8 +34,8 @@ exports.loginUsuario = (usuario, callback) => {
 */
 exports.createUser = (persona, callback) => {
     const { email, identificador } = persona;
-    const sql = `INSERT INTO usuarios (identificador, email, password, primerInicio) VALUES 
-    ('${identificador}','${email}','${bcrypt.hashSync(email, parseInt(process.env.BCRYPT_ROUNDS, 10))}', 1)`
+    const sql = `INSERT INTO usuarios (identificador, email, password, primerInicio)
+    VALUES ('${identificador}', '${email}', '${bcrypt.hashSync(email, parseInt(process.env.BCRYPT_ROUNDS, 10))}', 1)`
     dbConn.service(sql, callback)
 }
 
@@ -69,10 +69,13 @@ exports.changeEmail = (persona, callback) => {
 * @param callback - es el error o resultado exitoso.
 */
 exports.checkValidateUsuario = (usuario, callback) => {
-    const sql = `SELECT p.identificador, u.email, u.primerInicio, c.admitido FROM usuarios u
-    JOIN personas p ON p.identificador = u.identificador
-    JOIN clientes c ON p.identificador = c.identificador
-    WHERE u.email = '${usuario.email}';`
+    const sql = `
+    SELECT p.identificador, u.email, u.primerInicio, c.admitido
+    FROM usuarios u
+             JOIN personas p ON p.identificador = u.identificador
+             JOIN clientes c ON p.identificador = c.identificador
+    WHERE u.email = '${usuario.email}';
+    `
 
     dbConn.service(sql, callback)
 }
@@ -83,7 +86,10 @@ exports.checkValidateUsuario = (usuario, callback) => {
 * @param callback - es el error o resultado exitoso.
 */
 exports.checkUsuarioExistente = (usuario, callback) => {
-    const sql = `SELECT u.email, p.documento from usuarios u JOIN personas p on p.identificador = u.identificador where u.email = '${usuario.email}' OR p.documento = '${usuario.documento}';`
+    const sql = `
+    SELECT u.email, p.documento from usuarios u JOIN personas p on p.identificador = u.identificador 
+    WHERE u.email = '${usuario.email}' 
+    OR p.documento = '${usuario.documento}';`
     dbConn.service(sql, callback)
 }
 
@@ -103,9 +109,22 @@ exports.validatePassword = (usuario, callback) => {
 * @param callback - es el error o resultado exitoso.
 */
 exports.getAllUserData = (identificador, callback) => {
-    const sql = `SELECT pe.identificador, pe.documento, pe.nombre nombreCompleto, pe.direccion, pe.estado, pe.foto, c.admitido, c.categoria, pa.nombre nombrePais, pa.nombreCorto, pa.nacionalidad, pa.capital FROM personas pe
-    JOIN clientes c on pe.identificador = c.identificador
-    JOIN paises pa on pa.numero = c.numeroPais
-    WHERE pe.identificador = ${identificador}`
+    const sql = `
+    SELECT pe.identificador,
+       pe.documento,
+       pe.nombre nombreCompleto,
+       pe.direccion,
+       pe.estado,
+       pe.foto,
+       c.admitido,
+       c.categoria,
+       pa.nombre nombrePais,
+       pa.nombreCorto,
+       pa.nacionalidad,
+       pa.capital
+        FROM personas pe
+                JOIN clientes c on pe.identificador = c.identificador
+                JOIN paises pa on pa.numero = c.numeroPais
+        WHERE pe.identificador = ${identificador}`
     dbConn.service(sql, callback)
 }

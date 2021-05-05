@@ -7,13 +7,14 @@
 
 ---
 
-Recomiendo usar Docker para levantar un servidor SQL Server. Para instalar Docker ir a la página de Docker... Una vez instalado Docker correr en la consola el siguiente comando: 
+Recomiendo usar Docker para levantar un servidor SQL Server. Para instalar Docker ir a la página de [Docker](https://www.docker.com/products/docker-desktop)... Una vez instalado Docker correr en la consola el siguiente comando: 
 ```sh
     docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=rootSubastalo0*" -p 1433:1433 --name subastalo-mssql -d mcr.microsoft.com/mssql/server:2017-latest
 ```
 Dicho comando creará una imagen (si es necesario) y un contenedor Docker que tendrá el SQL Server. Una vez terminada esta parte, podremos continuar con la configuración del código.
 
-1- Correr ``npm install`` para instalar todas las dependencias del proyecto.
+1- Correr ``npm install`` para instalar todas las dependencias del proyecto. (es necesario que se corra ``npm 
+install -g migrate`` para instalar la dependencia migrate que se encargará de crear las tablas)
 
 2- Crear un archivo ``.env`` e ingresar los siguientes datos o customizar según sea necesario:
 ```
@@ -25,7 +26,10 @@ DB_PASSWORD=rootSubastalo0*
 DB_NAME=subastalo
 DB_PORT=1433
 ```
-2- Si el contenedor de Docker de mssql fue creado y ejecutado de forma correcta, al correr el comando ``migrate`` podremos crear todas las tablas en nuestra base de datos SQL Server.
+3- Crear la base de datos ``subastalo``
+
+4- Si el contenedor de Docker de mssql fue creado y ejecutado de forma correcta, al correr el comando ``migrate`` 
+podremos crear todas las tablas en nuestra base de datos SQL Server.
 
 >Para ver si se crearon las tablas se deberá usar Microsoft Server Management Studio (MSMS) o algún otro 
 >software compatible con SQL Server. Yo recomiendo Datagrip por su grandes funcionalidades.

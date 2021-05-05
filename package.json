@@ -2,7 +2,6 @@
   "name": "distribuidas-servidor",
   "version": "1.0.0",
   "description": "API REST de Subastalo",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",

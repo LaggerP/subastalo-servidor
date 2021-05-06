@@ -8,9 +8,10 @@ module.exports.up = function (next) {
     cliente int not null,
     nombreTitular varchar(150) not null,
     entidad varchar(150) not null,
-    numero varchar(20) not null,
+    numero varchar(60) not null,
     vencimiento varchar(10) not null,
-    codigo varchar(4) not null
+    codigo varchar(60) not null,
+    lastNumbers varchar(4) not null,
     constraint pk_metodoPago primary key (identificador),
     constraint fk_tarjeta_clientes foreign key (cliente) references clientes,
   )`;

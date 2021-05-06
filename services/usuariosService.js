@@ -3,7 +3,7 @@ const dbConn = require('../database')
 const bcrypt = require('bcrypt');
 
 /**
- * @description se inicia la sesión del usuario, se pasa por parametro el email correspondiente.
+ * @description se inicia la sesión del usuario, se pasa por parámetro el email correspondiente.
  * @param usuario - posee todos los datos necesarios del usuario para iniciar sesión.
  * @param callback - es el error o resultado exitoso.
  */
@@ -34,8 +34,11 @@ exports.loginUsuario = (usuario, callback) => {
  */
 exports.createUser = (persona, callback) => {
   const {email, identificador} = persona;
-  const sql = `INSERT INTO usuarios (identificador, email, password, primerInicio)
-    VALUES ('${identificador}', '${email}', '${bcrypt.hashSync(email, parseInt(process.env.BCRYPT_ROUNDS, 10))}', 1)`
+  let _email = bcrypt.hashSync(email, parseInt(process.env.BCRYPT_ROUNDS, 10));
+  const sql = `
+    INSERT INTO usuarios (identificador, email, password, primerInicio)
+    VALUES ('${identificador}', '${email}', '${_email}', 1)`;
+
   dbConn.service(sql, callback)
 }
 
@@ -54,29 +57,12 @@ exports.changePassword = (persona, callback) => {
 
 
 /**
- * @description se cambia el email del usuario
+ * @description permite cambiar el email del usuario
  * @param persona - posee email actual del usuario.
  * @param callback - es el error o resultado exitoso.
  */
 exports.changeEmail = (persona, callback) => {
   const sql = `UPDATE usuarios SET email='${persona.email}' WHERE email='${persona.email}'`;
-  dbConn.service(sql, callback)
-}
-
-/**
- * @description se devuelve la tabla con la información necesaria para saber si el usuario se encuentra admitido.
- * @param email - email necesario para buscar al usuario.
- * @param callback - es el error o resultado exitoso.
- */
-exports.checkValidateUsuario = (usuario, callback) => {
-  const sql = `
-    SELECT p.identificador, u.email, u.primerInicio, c.admitido
-    FROM usuarios u
-             JOIN personas p ON p.identificador = u.identificador
-             JOIN clientes c ON p.identificador = c.identificador
-    WHERE u.email = '${usuario.email}';
-    `
-
   dbConn.service(sql, callback)
 }
 
@@ -110,21 +96,23 @@ exports.validatePassword = (usuario, callback) => {
  */
 exports.getAllUserData = (identificador, callback) => {
   const sql = `
-    SELECT pe.identificador,
-       pe.documento,
-       pe.nombre nombreCompleto,
-       pe.direccion,
-       pe.estado,
-       pe.foto,
-       c.admitido,
-       c.categoria,
-       pa.nombre nombrePais,
-       pa.nombreCorto,
-       pa.nacionalidad,
-       pa.capital
-        FROM personas pe
-                JOIN clientes c on pe.identificador = c.identificador
-                JOIN paises pa on pa.numero = c.numeroPais
-        WHERE pe.identificador = ${identificador}`
+      SELECT pe.identificador idPersona,
+             pe.documento,
+             pe.nombre        nombreCompleto,
+             u.primerInicio,
+             pe.direccion,
+             pe.estado,
+             pe.foto,
+             c.admitido       clienteAdmitido,
+             c.categoria,
+             pa.nombre        nombrePais,
+             pa.nacionalidad,
+             pa.capital
+          FROM personas pe
+               JOIN clientes c on pe.identificador = c.identificador
+               JOIN usuarios u on pe.identificador = u.identificador
+               JOIN paises pa on pa.numero = c.numeroPais
+          WHERE pe.identificador = '${identificador}'
+          `;
   dbConn.service(sql, callback)
 }

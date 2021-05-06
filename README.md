@@ -33,3 +33,6 @@ podremos crear todas las tablas en nuestra base de datos SQL Server.
 
 >Para ver si se crearon las tablas se deberá usar Microsoft Server Management Studio (MSMS) o algún otro 
 >software compatible con SQL Server. Yo recomiendo Datagrip por su grandes funcionalidades.
+
+
+> Para crear nuevas migraciones tirar el siguiente comando ``migrate create NOMBRE_MIGRATE``

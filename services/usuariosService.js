@@ -20,7 +20,6 @@ exports.loginUsuario = (usuario, callback) => {
           userData = {...userData, ...result.recordset[0]}
           delete userData.password
           callback(null, userData)
-
         })
       }
     }
@@ -72,16 +71,18 @@ exports.changeEmail = (persona, callback) => {
  * @param callback - es el error o resultado exitoso.
  */
 exports.checkUsuarioExistente = (usuario, callback) => {
+  const {email, documento} = usuario;
+
   const sql = `
     SELECT u.email, p.documento from usuarios u JOIN personas p on p.identificador = u.identificador 
-    WHERE u.email = '${usuario.email}' 
-    OR p.documento = '${usuario.documento}';`
+    WHERE u.email = '${email}' 
+    OR p.documento = '${documento}';`
   dbConn.service(sql, callback)
 }
 
 /**
  * @description se devuelve la contraseña de un usuario correspondiente.
- * @param email - email necesario para buscar al usuario.
+ * @param usuario - usuario con su email necesario para buscar al usuario.
  * @param callback - es el error o resultado exitoso.
  */
 exports.validatePassword = (usuario, callback) => {
@@ -115,4 +116,13 @@ exports.getAllUserData = (identificador, callback) => {
           WHERE pe.identificador = '${identificador}'
           `;
   dbConn.service(sql, callback)
+}
+
+exports.updateVerifiedStatusUser = (dataCliente, callback) => {
+  const {identificador, numeroPais, admitido, categoria, verificador} = dataCliente
+  const sql = `INSERT INTO clientes (identificador, numeroPais, admitido, categoria, verificador) VALUES
+  ('${identificador}','${numeroPais}','${admitido}','${categoria}','${verificador}');`
+  dbConn.service(sql, callback)
+
+
 }

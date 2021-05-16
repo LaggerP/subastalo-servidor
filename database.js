@@ -19,19 +19,14 @@ const config = {
 
 
 module.exports.migrate = (_query, next) => {
-  console.log(_query)
-
   sql.connect(config, (err) => {
     if (err) console.log(err);
 
     console.log('Connection to DB established');
-
     let request = new sql.Request();
     request.query(_query, (err, result) => {
-      if (err)
-        console.log(err);
-      else
-        console.log(result); next();
+      if (err) console.log(err);
+      else console.log(result); next();
     })
   });
 };
@@ -39,10 +34,11 @@ module.exports.migrate = (_query, next) => {
 module.exports.service = (_query, callback) => {
 
   sql.connect(config, (err) => {
-    if (err) callback(err); console.log(err);
+    if (err) callback(err);
+    console.log(err);
 
     let request = new sql.Request();
-    request.query(_query, (err, result)=> {
+    request.query(_query, (err, result) => {
       if (err) callback(err);
       else callback(null, result);
     })
@@ -55,7 +51,7 @@ module.exports.insertDb = (_query) => {
   sql.connect(config, (err) => {
     if (err) return err;
     let request = new sql.Request();
-    request.query(_query, (err, result)=> {
+    request.query(_query, (err, result) => {
       if (err) return err;
       else return result;
     })

@@ -25,6 +25,11 @@ DB_USER=sa
 DB_PASSWORD=rootSubastalo0*
 DB_NAME=subastalo
 DB_PORT=1433
+EMAIL_HOST=tu_smtp@email.com
+EMAIL_PORT=587
+EMAIL_SECURE=true
+EMAIL_USER=tu_email@email.com
+EMAIL_PASSWORD=tu_p4ssw0rd_Email
 ```
 3- Crear la base de datos ``subastalo``
 

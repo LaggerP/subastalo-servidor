@@ -17,7 +17,8 @@ exports.registerPersona = (persona, callback) => {
   dbConn.service(sql, callback)
 }
 
-exports.getPersonaIdentificador = (documento, callback) => {
-  const sql = `SELECT identificador FROM personas WHERE documento='${documento}';`
+exports.getPersonaByDocumento = (documento, callback) => {
+  const sql = `SELECT p.identificador, p.nombre, u.email from personas p JOIN usuarios u on p.identificador = u.identificador WHERE documento='${documento}';`
   dbConn.service(sql, callback)
+
 }

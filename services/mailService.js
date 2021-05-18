@@ -11,28 +11,48 @@ let transporter = nodemailer.createTransport({
   }
 });
 
-
-exports.sendFirstLoginPasswordEmail = async (userData) => {
+/**
+ * @description se envia un email dando aviso que su cuenta fue verificada y aceptada. Se invita al usuario a ingresar su contraseña.
+ * @param userData - posee el email y nombre del usuario
+ */
+exports.sendSuccessfulVerificationEmail = async (userData) => {
   await transporter.sendMail({
     from: `"Subastalo - Tu app de subastas" <${process.env.EMAIL_USER}>`, // sender address
     to: `${userData.email}`,
     subject: "¡Su cuenta fue verificada y aceptada, felicitaciones!", // Subject line
     html: `
-      <h1 style="color: #5e9ca0; text-align: center;"><span style="color: #ff6600;">&iexcl;Felicitaciones {userName} su cuenta fue aceptada!</span></h1>
-        <p>Por favor ingrese al siguiente link para continuar con la segunda fase del registro: ${linkDeRedireccionApp}</p>
-        <p>Una vez que ingrese su contraseña podrá hacer uso completo de la aplicación <span style="background-color: #2b2301; color: #fff; display: inline-block; padding: 3px 10px; font-weight: bold; border-radius: 5px;">Subastalo</span></p>
-         <p>&nbsp;</p>
-      <blockquote>
-        <p style="text-align: center; font-size: 10px;"><strong><em>--EMAIL GENERADO DE FORMA AUTOMATICA, NO CONTESTAR--</em></strong></p>
-      </blockquote>
+    <h1 style="color: #5e9ca0; text-align: center;"><span style="color: #ff6600;">&iexcl;Felicitaciones ${userData.nombre} su cuenta fue aceptada!</span></h1>
+    <p style="text-align: center;">Por favor haga clic en el botón para poder ingresar su contraseña.</p>
+    <p style="text-align: center;">Una vez que ingrese su contraseña podrá hacer uso completo de la aplicación.</p>
+    <div style="text-align: center;">
+      <button style="	background-color:#ffae00;
+        border-radius:6px;
+        border:1px solid #ffffff;
+        display:inline-block;
+        cursor:pointer;
+        color:#000000;
+        font-family:Arial;
+        font-size:13px;
+        font-weight:bold;
+        padding:15px 18px;
+        text-decoration:none;">
+          <a href="https://google.com" style="text-decoration:none; color: black">CREAR CONTRASEÑA</a> 
+      </button>
+    </div>
+  <blockquote>
+    <p style="text-align: center; font-size: 10px;"><strong><em>--EMAIL GENERADO DE FORMA AUTOMATICA, NO CONTESTAR--</em></strong></p>
+  </blockquote>
     `
   }, (err, info) => {
     console.log('Email Status', info || err);
   })
 }
 
-
-exports.sendChangeForgottenPasswordEmail = async (userData) => {
+/**
+ * @description se envia un email a la persona que olvidó su contraseña.
+ * @param userData - data necesaria del usuario.
+ */
+exports.sendChangeForgottenPassword = async (userData) => {
   await transporter.sendMail({
     from: `"Subastalo - Tu app de subastas" <${process.env.EMAIL_USER}>`, // sender address
     to: `${userData.email}`,
@@ -45,14 +65,34 @@ exports.sendChangeForgottenPasswordEmail = async (userData) => {
   })
 }
 
-
+/**
+ * @description se devuelve toda la información asociada a un usuario correspondiente.
+ * @param email - email del ganador de la subasta.
+ */
 exports.sendSuccessRegister = async (email) => {
   await transporter.sendMail({
     from: `"Subastalo - Tu app de subastas" <${process.env.EMAIL_USER}>`, // sender address
     to: `${email}`,
     subject: "¡Su cuenta fue creada, felicitaciones!", // Subject line
     html: `La fase uno de registro de Subastalo fue realizada con éxito! Debe esperar a que nuestros operadores verifiquen su identidad antes de poder continuar con el resto del registro y participar en la app Subastalo`
-  },  (err, info) => {
+  }, (err, info) => {
+    console.log('Email Status', info || err);
+  })
+}
+
+
+/**
+ * @description se envia un email al ganador de la subasta.
+ * @param email - email del ganador de la subasta.
+ * @param callback - es el error o resultado exitoso.
+ */
+ exports.sendWinnerSubasta = async (email) => {
+  await transporter.sendMail({
+    from: `"Subastalo - Tu app de subastas" <${process.env.EMAIL_USER}>`, // sender address
+    to: `${email}`,
+    subject: "¡Ganó, felicitaciones!", // Subject line
+    html: `Usted ganó la subasta! nos pondremos en contacto con usted para seguír con la entrega del item`
+  }, (err, info) => {
     console.log('Email Status', info || err);
   })
 }

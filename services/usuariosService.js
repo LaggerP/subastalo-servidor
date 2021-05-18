@@ -66,6 +66,17 @@ exports.changeEmail = (persona, callback) => {
 }
 
 /**
+ * @description permite obtener toda la información de un usuario en particular
+ * @param id - id correspondiente al usario.
+ * @param callback - es el error o resultado exitoso.
+ */
+ exports.getUserById = (id, callback) => {
+   console.log(id)
+  const sql = `SELECT * FROM usuarios WHERE identificador='${id}'`;
+  dbConn.service(sql, callback)
+}
+
+/**
  * @description se determina si el usuario existe dentro de la base de datos a partir de su email y documento.
  * @param usuario - email y documento necesario para buscar al usuario.
  * @param callback - es el error o resultado exitoso.
@@ -118,7 +129,14 @@ exports.getAllUserData = (identificador, callback) => {
   dbConn.service(sql, callback)
 }
 
+
+/**
+ * @description actualizamos los valores que van a permitir que el usuario esté validado y aceptado dentro de la plataforma.
+ * @param dataCliente - posee toda la data necesaria para crear el insert dentro de la base de datos.
+ * @param callback - es el error o resultado exitoso.
+ */
 exports.updateVerifiedStatusUser = (dataCliente, callback) => {
+  console.log(dataCliente)
   const {identificador, numeroPais, admitido, categoria, verificador} = dataCliente
   const sql = `INSERT INTO clientes (identificador, numeroPais, admitido, categoria, verificador) VALUES
   ('${identificador}','${numeroPais}','${admitido}','${categoria}','${verificador}');`

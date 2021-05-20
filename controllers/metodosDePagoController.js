@@ -1,18 +1,16 @@
 const metodosDePagoService = require('../services/metodosDePagoService')
 
-exports.getMediosDePago = (req, res) => {
-  const mediosDePago = []
-  metodosDePagoService.getTarjetas(req.params.clienteId, (error, result) => {
-    if (error) return res.status(500).send("Error en el servidor");
-    else if (result.recordset) {
-      mediosDePago.push({tarjetas: result.recordset});
-      metodosDePagoService.getCuentasBancarias(req.params.clienteId, (error, result) => {
-        if (error) return res.status(500).send("Error en el servidor");
-        else if (result.recordset) mediosDePago.push({cuentasBancarias: result.recordset});
-        return res.status(200).json(mediosDePago)
-      })
-    }
-  })
+exports.getMediosDePago = async (req, res) => {
+  let mediosDePago = []
+  try {
+    const tarjetas = await metodosDePagoService.getTarjetas(req.params.id);
+    const cuentasBancarias = await metodosDePagoService.getCuentasBancarias(req.params.id);
+    mediosDePago.push({tarjetas, cuentasBancarias});
+    return res.status(200).send(mediosDePago);
+  } catch (e) {
+    return res.status(500).send("Error en el servidor");
+  }
+
 }
 
 exports.createNewTarjeta = (req, res) => {

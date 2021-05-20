@@ -13,18 +13,22 @@ exports.getMediosDePago = async (req, res) => {
 
 }
 
-exports.createNewTarjeta = (req, res) => {
+exports.createNewTarjeta = async (req, res) => {
   const tarjeta = req.body;
   tarjeta.lastNumbers = tarjeta.numero.slice(tarjeta.numero.length - 4);
-  metodosDePagoService.createTarjeta(tarjeta, (error, result) => {
-    if (error) return res.status(500).send("Error interno del servidor");
-    else if (result.rowsAffected) return res.status(201).send("Tarjeta de crédito/débito cargada con éxito");
-  })
+  try {
+    await metodosDePagoService.createTarjeta(tarjeta);
+    return res.status(201).send("Tarjeta de crédito/débito cargada con éxito");
+  } catch (e) {
+    return res.status(500).send("Error interno del servidor");
+  }
 }
 
-exports.createCuentaBancaria = (req, res) => {
-  metodosDePagoService.createCuentaBancaria(req.body, (error, result) => {
-    if (error) return res.status(500).send("Error interno del servidor");
-    else if (result.rowsAffected) return res.status(201).send("Cuenta bancaria creada con éxito");
-  })
+exports.createCuentaBancaria = async (req, res) => {
+  try {
+    await metodosDePagoService.createCuentaBancaria(req.body);
+    return res.status(201).send("Cuenta bancaria creada con éxito");
+  } catch (e) {
+    return res.status(500).send("Error interno del servidor");
+  }
 }

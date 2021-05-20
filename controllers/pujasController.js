@@ -3,7 +3,7 @@ const pujasService = require('../services/pujasService');
 exports.getPujasByCatalogoId = async (req, res) => {
   try {
     const pujas = await pujasService.getPujasByItemCatalogoId(req.params.id);
-    res.status(200).send(pujas)
+    return res.status(200).send(pujas)
   } catch (e) {
     return res.status(500).send("Error en el servidor");
   }

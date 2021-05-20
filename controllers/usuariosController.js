@@ -8,21 +8,22 @@ const mailService = require('../services/mailService');
  * @param req - posee todos los datos necesarios de la persona para cambiar la contraseña.
  * @param res - es el error o resultado exitoso.
  */
-exports.loginController = (req, res) => {
-  usuariosService.loginUsuario(req.body, (error, result) => {
-    if (result) {
-      result.token = jwt.sign({
-        id: result.identificador
+exports.loginController = async (req, res) => {
+  try {
+    const _login = await usuariosService.loginUsuario(req.body);
+    if (_login) {
+      _login.token = jwt.sign({
+        id: _login.identificador
       }, process.env.SECRET_JWT, {
         expiresIn: 86400 // expires in 24 hours
       });
-      result.clienteAdmitido = result.clienteAdmitido === 'si';
-
-      if (result.clienteAdmitido) return res.status(200).json(result);
+      _login.clienteAdmitido = _login.clienteAdmitido === 'si';
+      if (_login.clienteAdmitido) return res.status(200).json(_login);
       else return res.status(409).send("usuario no se encuentra verificado");
-
-    } else return res.status(500).json('Error al iniciar sesión');
-  })
+    }
+  } catch (e) {
+    return res.status(500).json('Error al iniciar sesión');
+  }
 }
 
 /**
@@ -30,11 +31,13 @@ exports.loginController = (req, res) => {
  * @param req - posee todos los datos necesarios de la persona para cambiar la contraseña.
  * @param res - es el error o resultado exitoso.
  */
-exports.changePasswordController = (req, res) => {
-  usuariosService.changePassword(req.body, (error, result) => {
-    if (error) return res.status(500).json('Error al cambiar la contraseña.');
-    return res.status(201).json({ msg: "Nueva contraseña generada/cambiada" });
-  })
+exports.changePasswordController = async (req, res) => {
+  try {
+    await usuariosService.changePassword(req.body);
+    return res.status(201).json({msg: "Nueva contraseña generada/cambiada"});
+  } catch (e) {
+    return res.status(500).json('Error al cambiar la contraseña.');
+  }
 }
 
 /**
@@ -42,13 +45,15 @@ exports.changePasswordController = (req, res) => {
  * @param req - posee todos los datos necesarios de la persona para cambiar el estado dentro de la base de datos.
  * @param res - es el error o resultado exitoso.
  */
-exports.sendVerifiedAccountEmail = (req, res) => {
+exports.sendVerifiedAccountEmail = async (req, res) => {
+  try {
+    const persona = await personaService.getPersonaByDocumento(req.body.documento);
 
-  personaService.getPersonaByDocumento(req.body.documento, (error, result) => {
     let emailData = {
-      nombre: result.recordset[0].nombre,
-      email: result.recordset[0].email
+      nombre: persona[0].nombre,
+      email: persona[0].email
     }
+
     let categoryArray = [
       'comun',
       'especial',
@@ -60,20 +65,18 @@ exports.sendVerifiedAccountEmail = (req, res) => {
     let randomPais = Math.floor(Math.random() * (5 - 1) + 1);
 
     let clientData = {
-      identificador: result.recordset[0].identificador,
+      identificador: persona[0].identificador,
       numeroPais: randomPais,
       admitido: 'si',
       categoria: categoryArray[randomCategory],
       verificador: 1
     }
-
-    usuariosService.updateVerifiedStatusUser(clientData, async (error, result) => {
-      if (error) return res.status(500);
-      else if (result) {
-        await mailService.sendSuccessfulVerificationEmail(emailData);
-        return res.status(201).send("Verificación automática realizada con éxito");
-      }
-    })
-
-  })
+    const _cliente = await usuariosService.updateVerifiedStatusUser(clientData);
+    if (_cliente) {
+      await mailService.sendSuccessfulVerificationEmail(emailData);
+      return res.status(201).send("Verificación automática realizada con éxito");
+    } else await usuariosService.updateVerifiedStatusUser(clientData);
+  } catch (e) {
+    res.status(500).json('Error en el servidor.');
+  }
 }

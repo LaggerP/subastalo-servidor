@@ -2,35 +2,23 @@ const personasService = require('../services/personasService');
 const usuariosService = require('../services/usuariosService');
 const mailService = require('../services/mailService')
 
-exports.registerPersonaController = (req, res) => {
-  usuariosService.checkUsuarioExistente(req.body, (error, result) => {
-    if (error) return res.status(500).json('Error al registrar usuario');
-    
-    if (result.recordset.length > 0) return res.status(409).json({
-      msg: 'Error al registrar usuario, el mismo ya existe dentro de la plataforma',
-      data: result.recordset[0]
-    });
-
+exports.registerPersonaController = async (req, res) => {
+  try {
+    const usuario = await usuariosService.checkUsuarioExistente(req.body);
+    if (usuario.length > 0) return res.status(409).send('Información existente');
     else {
-      personasService.registerPersona(req.body, (error, result) => {
-        if (error) return res.status(500).json('Error al registrar usuario');
+      const _registro = await personasService.registerPersona(req.body);
 
-        //Se logró la primera fase del registro.
-        if (result.rowsAffected[0] !== 0) {
-          const userData = {
-            email: req.body.email,
-            identificador: result.recordset[0].identificador
-          }
+      const userData = {
+        email: req.body.email,
+        identificador: _registro[0].identificador
+      }
 
-          usuariosService.createUser(userData, async (error, result) => {
-            if (error) return res.status(500).json('Error al registrar usuario');
-            else if (result) {
-              await mailService.sendSuccessRegister(userData.email);
-              return res.status(201).json("Fase uno del registro realizada con éxito");
-            }
-          })
-        }
-      })
+      await usuariosService.createUser(userData);
+      await mailService.sendSuccessRegister(userData.email);
+      return res.status(201).json("Fase uno del registro realizada con éxito");
     }
-  })
+  } catch (e) {
+    return res.status(500).json('Error al registrar usuario');
+  }
 }

@@ -5,33 +5,30 @@ const bcrypt = require('bcrypt')
 /**
  * @description obtiene todas las tarjetas asociadas a un cliente.
  * @param idCliente - es el id del cliente correspondiente
- * @param callback - es el error o resultado exitoso.
  */
-exports.getTarjetas = (idCliente, callback) => {
+exports.getTarjetas = (idCliente) => {
   const sql = `
-  SELECT t.identificador, t.cliente as idCliente, t.entidad, t.nombreTitular, t.numero, t.vencimiento
+  SELECT t.identificador as idTarjeta, t.cliente as idCliente, t.entidad, t.nombreTitular, t.lastNumbers, t.vencimiento
   FROM tarjeta t
   WHERE cliente = '${idCliente}'`
-  dbConn.service(sql, callback)
+  return dbConn.service(sql);
 }
 
 /**
  * @description obtiene todas las cuentas bancarias asociadas a un cliente.
  * @param idCliente - es el id del cliente correspondiente
- * @param callback - es el error o resultado exitoso.
  */
-exports.getCuentasBancarias = (idCliente, callback) => {
+exports.getCuentasBancarias = (idCliente) => {
   const sql = `SELECT cB.cliente as idCliente, cB.* FROM cuentaBancaria cB WHERE cliente = '${idCliente}'`
-  dbConn.service(sql, callback)
+  return dbConn.service(sql)
 }
 
 
 /**
  * @description permite crear una nueva tarjeta.
  * @param tarjeta - posee toda la información correspondiente para la creacion de la tarjeta
- * @param callback - es el error o resultado exitoso.
  */
-exports.createTarjeta = (tarjeta, callback) => {
+exports.createTarjeta = (tarjeta) => {
   const {
     nombreTitular,
     entidad,
@@ -50,16 +47,16 @@ exports.createTarjeta = (tarjeta, callback) => {
     VALUES 
     (${idCliente}, '${nombreTitular}', '${entidad}', '${_numero}', '${vencimiento}', '${_codigo}', '${lastNumbers}');
  `
-  dbConn.service(sql, callback)
+  return dbConn.service(sql)
+
 }
 
 
 /**
  * @description permite crear una nueva cuenta bancaria.
  * @param cuentaBancaria - posee toda la información correspondiente para la creacion de cuenta bancaria
- * @param callback - es el error o resultado exitoso.
  */
-exports.createCuentaBancaria = (cuentaBancaria, callback) => {
+exports.createCuentaBancaria = (cuentaBancaria) => {
   const {
     idCliente,
     nombreTitular,
@@ -73,5 +70,6 @@ exports.createCuentaBancaria = (cuentaBancaria, callback) => {
     INSERT INTO cuentaBancaria (cliente, cbu_alias, nombreTitular, entidad)
     VALUES (${idCliente}, '${_cbu_alias}', '${nombreTitular}', '${entidad}');
  `
-  dbConn.service(sql, callback)
+  return dbConn.service(sql)
+
 }

@@ -26,24 +26,22 @@ module.exports.migrate = (_query, next) => {
     let request = new sql.Request();
     request.query(_query, (err, result) => {
       if (err) console.log(err);
-      else console.log(result); next();
+      else console.log(result);
+      next();
     })
   });
 };
 
-module.exports.service = (_query, callback) => {
 
-  sql.connect(config, (err) => {
-    if (err) callback(err);
-    console.log(err);
-
-    let request = new sql.Request();
-    request.query(_query, (err, result) => {
-      if (err) callback(err);
-      else callback(null, result);
-    })
-  });
-};
+module.exports.service = async (_query) => {
+  try {
+    await sql.connect(config)
+    const result = await sql.query(_query);
+    return result.recordset
+  } catch (err) {
+    return err
+  }
+}
 
 module.exports.insertDb = (_query) => {
   console.log(_query);
@@ -56,4 +54,5 @@ module.exports.insertDb = (_query) => {
       else return result;
     })
   });
-};
+
+}

@@ -3,9 +3,8 @@ const dbConn = require('../database')
 
 /**
  * @description obtiene toda las subastas activas y futuras.
- * @param callback - es el error o resultado exitoso.
  */
-exports.getAllSubastas = (callback) => {
+exports.getAllSubastas = () => {
   const sql = `
    SELECT s.identificador idSubasta,
    s.fecha         fechaSubasta,
@@ -20,43 +19,62 @@ FROM subastas s
      JOIN subastadores s2 on s2.identificador = s.subastador
      JOIN personas p on s2.identificador = p.identificador
 WHERE s.fecha >= GETDATE();`
-  dbConn.service(sql, callback)
+  return dbConn.service(sql);
 }
 
 /**
  * @description obtiene el catalogo de una subasta en particular a partir de su idSubasta.
  * @param idSubasta - id correspondiente a la subasta. Necesario para traer el catalogo
- * @param callback - es el error o resultado exitoso.
- * @fixme PERO SUPER FIXME, ESTO ES UN DESASTRE! MEJORAR ESOS ASQUEROSOS JOINS (ADEMAS NI SE SI FUNCIONA)
  */
-exports.getCatalogo = (idSubasta, callback) => {
+exports.getCatalogo = (idSubasta) => {
   const sql = `
-    SELECT s.identificador idSubasta,
-    s.fecha         fechaSubasta,
-    s.hora          horaSubasta,
-    s.estado        estadoSubasta,
-    s.ubicacion     ubicacionSubasta,
-    s.capacidadAsistentes,
-    s.categoria     categoriaSubasta,
-    c.identificador idCatalogo,
-    ic.producto     idProducto,
-    ic.precioBase,
-    ic.comision,
-    ic.subastado,
-    p.fecha as      'productos.fecha',
-    p.disponible as      'productos.disponible',
-    p.descripcionCatalogo as      'productos.descripcionCatalogo',
-    p.descripcionCompleta as      'productos.descripcionCompleta',
-    p2.nombre as 'productos.duenio',
-    f.foto as 'productos.fotos'
+    SELECT c.identificador       idCatalogo,
+           p.identificador       idProducto,
+           c.descripcion,
+           iC.precioBase         PrecioBase,
+           p.descripcionCompleta descripcionCompleta,
+           p.descripcionCatalogo descripcionCatalogo,
+           c2.categoria          categoriaProducto,
+           p2.nombre             duenioProducto
+    FROM catalogos c
+             JOIN itemsCatalogo iC on c.identificador = iC.catalogo
+             JOIN productos p on p.identificador = iC.producto
+             JOIN duenios d on d.identificador = p.duenio
+             JOIN personas p2 on p2.identificador = d.identificador
+             JOIN productoCategorias pC on p.identificador = pC.producto
+             JOIN productoCategorias pC2 on p.identificador = pC2.producto
+             JOIN categorias c2 on c2.identificador = pC.categoria
+      WHERE subasta = '${idSubasta}'`;
+  return dbConn.service(sql);
+}
 
-FROM subastas s
-      JOIN catalogos c on s.identificador = c.subasta
-      JOIN itemsCatalogo ic on s.identificador = ic.identificador
-      JOIN productos p on c.identificador = p.identificador
-      JOIN duenios d on d.identificador = p.duenio
-      JOIN personas p2 on d.identificador = p2.identificador
-     JOIN fotos f on p.identificador = f.producto
- WHERE s.identificador = '${idSubasta}'`
-  dbConn.service(sql, callback)
+
+/**
+ * @description obtiene el item que se encuentra subastándose.
+ * @param idCatalogo - id del catalogo necesario para buscar el item
+ */
+exports.getItemSubastandose = (idCatalogo) => {
+  const sql = `
+    SELECT TOP 1 iC.identificador idItemCatalogo,
+                 iC.catalogo      idCatalogo,
+                 p.identificador  idProducto,
+                 precioBase,
+                 comision,
+                 descripcionCatalogo,
+                 descripcionCompleta
+    from itemsCatalogo iC
+             join productos p on p.identificador = iC.producto
+    WHERE iC.subastado = 'no'
+      AND p.disponible = 'si'
+      AND iC.catalogo = '${idCatalogo}';`
+  return dbConn.service(sql);
+}
+
+/**
+ * @description obtiene todas las imágenes de un producto en particular.
+ * @param idProducto - id del producto necesario para buscar las imágenes
+ */
+exports.getImagesByProductoId = (idProducto) => {
+  const sql = `SELECT foto from fotos WHERE producto = '${idProducto}';`
+  return dbConn.service(sql);
 }

@@ -16,6 +16,7 @@ let transporter = nodemailer.createTransport({
  * @param userData - posee el email y nombre del usuario
  */
 exports.sendSuccessfulVerificationEmail = async (userData) => {
+  console.log(userData)
   await transporter.sendMail({
     from: `"Subastalo - Tu app de subastas" <${process.env.EMAIL_USER}>`, // sender address
     to: `${userData.email}`,
@@ -31,7 +32,6 @@ exports.sendSuccessfulVerificationEmail = async (userData) => {
         display:inline-block;
         cursor:pointer;
         color:#000000;
-        font-family:Arial;
         font-size:13px;
         font-weight:bold;
         padding:15px 18px;
@@ -86,7 +86,7 @@ exports.sendSuccessRegister = async (email) => {
  * @param email - email del ganador de la subasta.
  * @param callback - es el error o resultado exitoso.
  */
- exports.sendWinnerSubasta = async (email) => {
+exports.sendWinnerSubasta = async (email) => {
   await transporter.sendMail({
     from: `"Subastalo - Tu app de subastas" <${process.env.EMAIL_USER}>`, // sender address
     to: `${email}`,

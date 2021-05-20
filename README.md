@@ -1,11 +1,28 @@
 # Aplicaciones Distribuidas - UADE
-#### Este repositorio hace referencia al backend de la aplicación "Subastalo"
+#### Este repositorio hace referencia a la API Rest de la aplicación "Subastalo"
 
-###### Antes de empezar con el proyecto, es necesario tener configurada la base de datos. 
-###### Vamos a usar Microsoft SQL Server (mssql).
+**Contexto de la aplicación:**
+Nuestro cliente necesita una app mobile que permita poder seguir realizando subastas (que antes de la pandemia eran 
+presenciales) de forma remota. Es por eso que se nos encomendó desarrollar una API Rest que utilice una base de 
+datos existente (MSSQL) y permita registrar todos los sucesos que ocurran en esta:
 
+### Ejemplos:
+- realización de pujas sobre un item que está siendo subastado.
+- registro de nuevos usuarios (previa verificación crediticia de la persona).
+- sistema de categorías (teniendo en cuenta la verificación crediticia de la persona).
+- cargar tus items para ser subastados (previa verificación por parte de la casa de subastas).
+- cargar métodos de pago (tarjetas y cuentas bancarias).
+- permitir modificación de información personal.
+- historial de participación en subastas (subastas ganadas, perdidas, pujas realizadas, etc.).
+- sistema de envío de emails (aviso de creación de usuario, cambio de contraseña, bienvenida, etc.).
+-  [más información de los requerimientos](https://github.com/LaggerP/distribuidas-servidor/wiki/Requerimientos-de-la-aplicaci%C3%B3n)
 
 ---
+
+##### Antes de empezar con el proyecto, es necesario tener configurada la base de datos. 
+##### Vamos a usar Microsoft SQL Server (mssql).
+
+
 
 Recomiendo usar Docker para levantar un servidor SQL Server. Para instalar Docker ir a la página de [Docker](https://www.docker.com/products/docker-desktop)... Una vez instalado Docker correr en la consola el siguiente comando: 
 ```sh

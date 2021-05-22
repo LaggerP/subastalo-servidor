@@ -62,11 +62,12 @@ exports.getItemSubastandose = (idCatalogo) => {
                  comision,
                  descripcionCatalogo,
                  descripcionCompleta
-    from itemsCatalogo iC
-             join productos p on p.identificador = iC.producto
+    FROM catalogos
+             JOIN itemsCatalogo iC on catalogos.identificador = iC.catalogo
+             JOIN productos p on p.identificador = iC.producto
     WHERE iC.subastado = 'no'
       AND p.disponible = 'si'
-      AND iC.catalogo = '${idCatalogo}';`
+      AND subasta = '${idCatalogo}';`
   return dbConn.service(sql);
 }
 

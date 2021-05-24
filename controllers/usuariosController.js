@@ -12,13 +12,13 @@ exports.loginController = async (req, res) => {
   try {
     const _login = await usuariosService.loginUsuario(req.body);
     if (_login) {
-      _login.token = jwt.sign({
-        id: _login.identificador
+      _login[0].token = jwt.sign({
+        id: _login[0].identificador
       }, process.env.SECRET_JWT, {
         expiresIn: 86400 // expires in 24 hours
       });
-      _login.clienteAdmitido = _login.clienteAdmitido === 'si';
-      if (_login.clienteAdmitido) return res.status(200).json(_login);
+      _login[0].clienteAdmitido = _login[0].clienteAdmitido === 'si';
+      if (_login[0].clienteAdmitido) return res.status(200).json(_login[0]);
       else return res.status(409).send("usuario no se encuentra verificado");
     }
   } catch (e) {

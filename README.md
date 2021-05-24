@@ -11,7 +11,7 @@ datos existente (MSSQL) y permita registrar todos los sucesos que ocurran en est
 - registro de nuevos usuarios (previa verificación crediticia de la persona).
 - sistema de categorías (teniendo en cuenta la verificación crediticia de la persona).
 - cargar tus items para ser subastados (previa verificación por parte de la casa de subastas).
-- cargar métodos de pago (tarjetas y cuentas bancarias).
+- cargar métodos de pago (tarjetas y cuentas bancarias - se ignorarán temas de seguridad y protección de datos).
 - permitir modificación de información personal.
 - historial de participación en subastas (subastas ganadas, perdidas, pujas realizadas, etc.).
 - sistema de envío de emails (aviso de creación de usuario, cambio de contraseña, bienvenida, etc.).

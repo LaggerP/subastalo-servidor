@@ -103,6 +103,7 @@ exports.validatePassword = (email) => {
 exports.getAllUserData = (identificador) => {
   const sql = `
       SELECT pe.identificador idPersona,
+             c.identificador  idCliente,
              pe.documento,
              pe.nombre        nombreCompleto,
              u.primerInicio,

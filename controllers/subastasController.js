@@ -27,7 +27,6 @@ exports.getItemSubastandoseByCatalogoId = async (req, res) => {
   const itemSubastandose = await subastasService.getItemSubastandose(req.params.id);
   if (itemSubastandose.length > 0) {
     try {
-      console.log(itemSubastandose)
       itemSubastandose[0].fotos = await subastasService.getImagesByProductoId(itemSubastandose[0].idProducto);
       itemSubastandose[0].pujas = await pujasService.getPujasByItemCatalogoId(itemSubastandose[0].idItemCatalogo);
       return res.status(200).send(itemSubastandose[0]);

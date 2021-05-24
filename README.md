@@ -58,3 +58,8 @@ podremos crear todas las tablas en nuestra base de datos SQL Server.
 
 
 > Para crear nuevas migraciones tirar el siguiente comando ``migrate create NOMBRE_MIGRATE``
+
+
+
+### README EN CONSTRUCCIÓN....
+#### ÚLTIMA MODIFICACIÓN: 24 DE MAYO 2021

@@ -23,7 +23,7 @@ exports.getCatalogoBySubastaId = async (req, res) => {
   }
 }
 
-exports.getItemSubastandoseByCatalogoId = async (req, res) => {
+exports.getItemSubastandoseBySubastaId = async (req, res) => {
   const itemSubastandose = await subastasService.getItemSubastandose(req.params.id);
   if (itemSubastandose.length > 0) {
     try {

@@ -3,6 +3,6 @@ const subastasController = require('../controllers/subastasController');
 
 subastasRoutes.get('/', subastasController.getAllSubastas);
 subastasRoutes.get('/catalogo/:id', subastasController.getCatalogoBySubastaId);
-subastasRoutes.get('/catalogo/:id/item-catalogo', subastasController.getItemSubastandoseByCatalogoId);
+subastasRoutes.get('/catalogo/:id/item-catalogo', subastasController.getItemSubastandoseBySubastaId);
 
 module.exports = subastasRoutes;

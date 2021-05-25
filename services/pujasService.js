@@ -22,26 +22,35 @@ exports.getPujasByItemCatalogoId = (ItemCatalogoId) => {
  * @description registra al cliente en una subasta.
  * @param dataAsistente - posee el numero del postor, el id del cliente y la subasta en la que participa
  */
-exports.registerAsistente = (dataAsistente) => {
-  const {idSubasta, idCliente, numeroPostor} = dataAsistente
-
+exports.registerAsistente = ({idSubasta, idCliente, numeroPostor}) => {
   const sql = `
-      INSERT INTO asistentes (numeroPostor, cliente, subasta)
-        SELECT ${numeroPostor}, ${idCliente}, ${idSubasta}
-            WHERE NOT EXISTS(SELECT 1 FROM asistentes WHERE cliente = ${idCliente})
-        SELECT SCOPE_IDENTITY() AS asistente
+      INSERT INTO asistentes (numeroPostor, cliente, subasta) VALUES (${numeroPostor}, ${idCliente}, ${idSubasta})
+      SELECT SCOPE_IDENTITY() AS idAsistente
   `;
-
   return dbConn.service(sql);
+}
 
+/**
+ * @description nos permite obtener el idAsistente de un asistente ya registrado.
+ * @param idSubasta - id de la subasta
+ * @param idCliente- id del cliente
+ */
+exports.getAsistenteBySubastaAndCliente = ({idSubasta, idCliente}) => {
+  const sql = `SELECT identificador as idAsistente from asistentes WHERE subasta = ${idSubasta} AND cliente = ${idCliente}`;
+  return dbConn.service(sql);
 }
 
 /**
  * @description registra una nueva puja en la subasta.
- * @param dataPuja - posee el numero del postor, el id del cliente y la subasta en la que participa
+ * @param asistente - id del asistente
+ * @param idItem - id del item
+ * @param importe - importe ofertado
  */
-exports.registerPuja = (dataPuja) => {
-  const {asistente, idItem, importe} = dataPuja
+exports.registerPuja = ({asistente, idItem, importe}) => {
   const sql = `INSERT INTO pujos (asistente, item, importe) values (${asistente}, ${idItem}, ${importe})`;
   return dbConn.service(sql);
 }
+
+
+
+

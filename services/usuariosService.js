@@ -109,7 +109,7 @@ exports.getAllUserData = (identificador) => {
              u.primerInicio,
              pe.direccion,
              pe.estado,
-             pe.foto,
+             CONVERT(varchar(max), pe.foto, 0) as foto,
              c.admitido       clienteAdmitido,
              c.categoria,
              pa.nombre        nombrePais,

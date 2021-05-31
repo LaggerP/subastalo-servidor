@@ -56,16 +56,19 @@ exports.getCatalogo = (idSubasta) => {
 exports.getItemSubastandose = (idSubasta) => {
   const sql = `
     SELECT TOP 1 iC.identificador idItemCatalogo,
+                 c.categoria,
                  iC.catalogo      idCatalogo,
                  p.identificador  idProducto,
                  precioBase,
                  comision,
                  descripcionCatalogo,
-                 descripcionCompleta, 
-                 subasta idSubasta
+                 descripcionCompleta,
+                 subasta          idSubasta
     FROM catalogos
              JOIN itemsCatalogo iC on catalogos.identificador = iC.catalogo
              JOIN productos p on p.identificador = iC.producto
+             JOIN productoCategorias pC on p.identificador = pC.producto
+             JOIN categorias c on c.identificador = pC.categoria
     WHERE iC.subastado = 'no'
       AND p.disponible = 'si'
       AND subasta = '${idSubasta}';`
@@ -77,6 +80,16 @@ exports.getItemSubastandose = (idSubasta) => {
  * @param idProducto - id del producto necesario para buscar las imágenes
  */
 exports.getImagesByProductoId = (idProducto) => {
-  const sql = `SELECT foto from fotos WHERE producto = '${idProducto}';`
+  const sql = `SELECT CONVERT(varchar(max), foto, 0) as foto from fotos WHERE producto = ${idProducto};`
+  return dbConn.service(sql);
+}
+
+exports.changeEstadoProducto = (idProducto) => {
+  const sql = `UPDATE productos SET disponible = 'no' WHERE identificador = ${idProducto};`
+  return dbConn.service(sql);
+}
+
+exports.changeEstadoItemCatalogo = (idItemCatalogo) => {
+  const sql = `UPDATE itemsCatalogo SET subastado = 'si' WHERE identificador = ${idItemCatalogo};`
   return dbConn.service(sql);
 }

@@ -1,6 +1,12 @@
 const subastasService = require('../services/subastasService');
 const pujasService = require('../services/pujasService');
 
+
+/**
+ * @description trae todas las subastas.
+ * @param req.
+ * @param res.
+ */
 exports.getAllSubastas = async (req, res) => {
   try {
     const subastas = await subastasService.getAllSubastas();
@@ -12,6 +18,11 @@ exports.getAllSubastas = async (req, res) => {
   }
 }
 
+/**
+ * @description trae el catalogo de una subasta a través del id de la subasta.
+ * @param req - contiene el parámetro id de la subasta.
+ * @param res - retorna el catalogo.
+ */
 exports.getCatalogoBySubastaId = async (req, res) => {
   try {
     let catalogo = await subastasService.getCatalogo(req.params.id);
@@ -27,11 +38,16 @@ exports.getCatalogoBySubastaId = async (req, res) => {
       }))
       res.status(200).send(newCatalogo);
     } else return res.status(204).send('No hay contenido asociado a esta subasta');
-  } catch (e){
+  } catch (e) {
     return res.status(500).send('Error interno del servidor');
   }
 }
 
+/**
+ * @description trae el item que esta subastándose a través del id de la subasta.
+ * @param req - contiene el parámetro id de la subasta.
+ * @param res - retorna el item.
+ */
 exports.getItemSubastandoseBySubastaId = async (req, res) => {
   try {
     const itemSubastandose = await subastasService.getItemSubastandose(req.params.id);
@@ -48,23 +64,21 @@ exports.getItemSubastandoseBySubastaId = async (req, res) => {
   } catch (e) {
     return res.status(500).send('Error interno del servidor');
   }
-
 }
 
 
+/**
+ * @description cambia el estado 'disponible' de un producto que esta en subasta
+ * @param req - contiene el id del item catalogo y del producto.
+ * @param res - retorna el correcto cambio de estado
+ */
 exports.changeEstadoItemSubastandose = async (req, res) => {
   const {idItemCatalogo, idProducto} = req.body
   try {
     await subastasService.changeEstadoProducto(idProducto);
     await subastasService.changeEstadoItemCatalogo(idItemCatalogo)
     res.status(201).send('Estados cambiados');
-  }
-  catch (e) {
+  } catch (e) {
     return res.status(500).send('Error interno del servidor');
-
   }
-
-
-
-
 }

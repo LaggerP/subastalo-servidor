@@ -12,7 +12,8 @@ let transporter = nodemailer.createTransport({
 });
 
 /**
- * @description se envia un email dando aviso que su cuenta fue verificada y aceptada. Se invita al usuario a ingresar su contraseña.
+ * @description se envía un email dando aviso que su cuenta fue verificada y aceptada. Se invita al usuario a
+ * ingresar su contraseña.
  * @param userData - posee el email y nombre del usuario
  */
 exports.sendSuccessfulVerificationEmail = async (userData) => {
@@ -49,7 +50,7 @@ exports.sendSuccessfulVerificationEmail = async (userData) => {
 }
 
 /**
- * @description se envia un email a la persona que olvidó su contraseña.
+ * @description se envía un email a la persona que olvidó su contraseña.
  * @param userData - data necesaria del usuario.
  */
 exports.sendChangeForgottenPassword = async (userData) => {
@@ -82,9 +83,8 @@ exports.sendSuccessRegister = async (email) => {
 
 
 /**
- * @description se envia un email al ganador de la subasta.
+ * @description se envía un email al ganador de la subasta.
  * @param email - email del ganador de la subasta.
- * @param callback - es el error o resultado exitoso.
  */
 exports.sendWinnerSubasta = async (email) => {
   await transporter.sendMail({

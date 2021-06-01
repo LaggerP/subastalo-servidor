@@ -84,11 +84,19 @@ exports.getImagesByProductoId = (idProducto) => {
   return dbConn.service(sql);
 }
 
+/**
+ * @description cambia el estado de disponibilidad del producto a 'no'.
+ * @param idProducto
+ */
 exports.changeEstadoProducto = (idProducto) => {
   const sql = `UPDATE productos SET disponible = 'no' WHERE identificador = ${idProducto};`
   return dbConn.service(sql);
 }
 
+/**
+ * @description cambia el estado de subastado del itemCatalogo a 'si'.
+ * @param idItemCatalogo
+ */
 exports.changeEstadoItemCatalogo = (idItemCatalogo) => {
   const sql = `UPDATE itemsCatalogo SET subastado = 'si' WHERE identificador = ${idItemCatalogo};`
   return dbConn.service(sql);

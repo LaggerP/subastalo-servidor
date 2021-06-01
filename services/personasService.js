@@ -1,6 +1,5 @@
 require('dotenv').config()
 const dbConn = require('../database')
-const bcrypt = require('bcrypt');
 
 /**
  * @description se registra al usuario (primer fase). Esto genera un usuario nuevo en donde la contraseña es el email de la persona. Dicha contraseña debe ser cambiada al ser verificado el usuario de forma OBLIGATORIA.

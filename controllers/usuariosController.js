@@ -4,7 +4,8 @@ const personaService = require('../services/personasService');
 const mailService = require('../services/mailService');
 
 /**
- * @description permite llamar al servicio correspondiente para iniciar sesión dentro de la plataforma.
+ * @description permite llamar al servicio correspondiente para iniciar sesión dentro de la plataforma. Solo
+ * funciona con usuarios clientes. No funciona con usuarios empleados.
  * @param req - posee todos los datos necesarios de la persona para cambiar la contraseña.
  * @param res - es el error o resultado exitoso.
  */
@@ -18,9 +19,12 @@ exports.loginController = async (req, res) => {
         expiresIn: 86400 // expires in 24 hours
       });
       _login[0].clienteAdmitido = _login[0].clienteAdmitido === 'si';
+
       if (_login[0].clienteAdmitido) return res.status(200).json(_login[0]);
-      else return res.status(409).send("usuario no se encuentra verificado");
+
+      return res.status(401).send("Usuario no se encuentra verificado");
     }
+    return res.status(400).send("Credenciales incorrectas");
   } catch (e) {
     return res.status(500).json('Error al iniciar sesión');
   }

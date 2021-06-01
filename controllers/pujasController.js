@@ -1,5 +1,10 @@
 const pujasService = require('../services/pujasService');
 
+/**
+ * @description trae todas las pujas realizadas.
+ * @param req - posee el id asociado al catalogo.
+ * @param res - retorna todas las pujas.
+ */
 exports.getPujasByCatalogoId = async (req, res) => {
   try {
     const pujas = await pujasService.getPujasByItemCatalogoId(req.params.id);
@@ -9,6 +14,12 @@ exports.getPujasByCatalogoId = async (req, res) => {
   }
 }
 
+
+/**
+ * @description permite registrar una nueva puja sobre un producto en subasta (previa registración del asistente).
+ * @param req - idSubasta, idCliente, numeroPostor, importe, idItem.
+ * @param res - retorna mensaje de puja realizada con éxito y el idAsistente.
+ */
 exports.newPuja = async (req, res) => {
   let {idSubasta, idCliente, numeroPostor, importe, idItem} = req.body;
   try {

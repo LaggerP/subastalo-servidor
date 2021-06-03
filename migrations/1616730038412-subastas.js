@@ -7,7 +7,7 @@ module.exports.up = function (next) {
     identificador int not null identity,
     fecha date constraint chkFecha check (fecha > dateAdd(dd, 10, getdate())),
     hora time not null,
-    estado varchar(10) constraint chkES check (estado in ('abierta','carrada')),
+    estado varchar(10) constraint chkES check (estado in ('abierta','cerrada')),
     subastador int null,
     ubicacion varchar(350) null,
     capacidadAsistentes int null,

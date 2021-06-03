@@ -20,7 +20,7 @@ exports.loginController = async (req, res) => {
       });
       _login[0].clienteAdmitido = _login[0].clienteAdmitido === 'si';
 
-      if (_login[0].clienteAdmitido) return res.status(200).json(_login[0]);
+      if (_login[0].clienteAdmitido) return res.status(200).json({status: 200, userData:_login[0]});
 
       return res.status(401).send("Usuario no se encuentra verificado");
     }

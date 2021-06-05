@@ -7,11 +7,12 @@ const dbConn = require('../database')
  */
 exports.getPujasByItemCatalogoId = (ItemCatalogoId) => {
   const sql = `
-    SELECT pujos.identificador idPujo, p.nombre nombrePujador, importe, pujos.ganador
-    from pujos
-             join asistentes a on pujos.asistente = a.identificador
-             join clientes c on c.identificador = a.cliente
+    SELECT pujos.identificador idPujo, p.nombre nombrePujador, importe, pujos.ganador, horario
+    FROM pujos
+             JOIN asistentes a on pujos.asistente = a.identificador
+             JOIN clientes c on c.identificador = a.cliente
              JOIN personas p on p.identificador = c.identificador
+             JOIN horarioItemPuja hIP on pujos.identificador = hIP.puja
     WHERE item = '${ItemCatalogoId}'
     ORDER BY importe DESC`;
 
@@ -47,7 +48,17 @@ exports.getAsistenteBySubastaAndCliente = ({idSubasta, idCliente}) => {
  * @param importe - importe ofertado
  */
 exports.registerPuja = ({asistente, idItem, importe}) => {
-  const sql = `INSERT INTO pujos (asistente, item, importe) values (${asistente}, ${idItem}, ${importe})`;
+  const sql = `INSERT INTO pujos (asistente, item, importe) values (${asistente}, ${idItem}, ${importe}) SELECT SCOPE_IDENTITY() AS idPuja`;
+  return dbConn.service(sql);
+}
+
+/**
+ * @description registra el horario en la que fue realizada la puja.
+ * @param puja - id de la puja
+ * @param horario - horario en la fue fue realizada la puja
+ */
+exports.registerHorarioPuja = ({idPuja, horario}) => {
+  const sql = `INSERT INTO horarioItemPuja (puja, horario) values (${idPuja}, '${horario}')`;
   return dbConn.service(sql);
 }
 

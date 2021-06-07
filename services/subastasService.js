@@ -51,19 +51,19 @@ exports.getCatalogo = (idSubasta) => {
 
 /**
  * @description obtiene el item que se encuentra subastándose.
- * @param idSubasta - id del catalogo necesario para buscar el item
+ * @param idSubasta - id de la subasta necesaria para buscar el item
  */
 exports.getItemSubastandose = (idSubasta) => {
   const sql = `
-    SELECT TOP 1 iC.identificador idItemCatalogo,
-                 c.categoria,
+    SELECT TOP 1 subasta          idSubasta,
+                 iC.identificador idItemCatalogo,
                  iC.catalogo      idCatalogo,
                  p.identificador  idProducto,
+                 c.categoria,
                  precioBase,
                  comision,
                  descripcionCatalogo,
-                 descripcionCompleta,
-                 subasta          idSubasta
+                 descripcionCompleta
     FROM catalogos
              JOIN itemsCatalogo iC on catalogos.identificador = iC.catalogo
              JOIN productos p on p.identificador = iC.producto

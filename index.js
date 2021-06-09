@@ -10,6 +10,9 @@ const http = require('http');
 const app = express();
 app.use(cors())
 
+// Set the body size limit to 800000 bytes
+app.use(express.json({ limit: 800000 }))
+
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -31,7 +31,7 @@ exports.createNewTarjeta = async (req, res) => {
   tarjeta.lastNumbers = tarjeta.numero.slice(tarjeta.numero.length - 4);
   try {
     await metodosDePagoService.createTarjeta(tarjeta);
-    return res.status(201).send("Tarjeta de crédito/débito cargada con éxito");
+    return res.status(201).json({status:201, msg: "Tarjeta de crédito/débito cargada con éxito"});
   } catch (e) {
     return res.status(500).send("Error interno del servidor");
   }
@@ -45,7 +45,7 @@ exports.createNewTarjeta = async (req, res) => {
 exports.createCuentaBancaria = async (req, res) => {
   try {
     await metodosDePagoService.createCuentaBancaria(req.body);
-    return res.status(201).send("Cuenta bancaria creada con éxito");
+    return res.status(201).json({status:201, msg: "Cuenta bancaria creada con éxito"});
   } catch (e) {
     return res.status(500).send("Error interno del servidor");
   }

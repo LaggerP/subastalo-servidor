@@ -59,7 +59,7 @@ exports.getItemSubastandose = (idSubasta) => {
                  iC.identificador idItemCatalogo,
                  iC.catalogo      idCatalogo,
                  p.identificador  idProducto,
-                 c.categoria,
+                 c.categoria      categoriaCatalogo,
                  precioBase,
                  comision,
                  descripcionCatalogo,

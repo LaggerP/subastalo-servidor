@@ -33,7 +33,8 @@ exports.newPuja = async (req, res) => {
       await pujasService.registerHorarioPuja({idPuja, horario});
       return res.status(201).json({
         msg: "Puja realizada con éxito",
-        idAsistente: asistente
+        idAsistente: asistente,
+        status: 201
       })
     }
     // asistente no se encuentra registrado en la subasta. Se procede a registrarlo
@@ -46,7 +47,8 @@ exports.newPuja = async (req, res) => {
         await pujasService.registerHorarioPuja({idPuja, horario})
         return res.status(201).json({
           msg: "Puja realizada con éxito",
-          idAsistente: asistente
+          idAsistente: asistente,
+          status: 201
         })
       }
     }

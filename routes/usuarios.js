@@ -6,4 +6,5 @@ usuariosRoutes.post('/new-user', personaController.registerPersonaController);
 usuariosRoutes.post('/login', usuariosController.loginController);
 usuariosRoutes.post('/change-password', usuariosController.changePasswordController);
 usuariosRoutes.post('/verified-account', usuariosController.sendVerifiedAccountEmail);
+usuariosRoutes.post('/forgot-password', usuariosController.sendChangePasswordEmail)
 module.exports = usuariosRoutes;

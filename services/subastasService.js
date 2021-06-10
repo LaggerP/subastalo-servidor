@@ -31,11 +31,12 @@ exports.getCatalogo = (idSubasta) => {
     SELECT c.identificador       idCatalogo,
            p.identificador       idProducto,
            c.descripcion,
-           iC.precioBase         PrecioBase,
+           iC.precioBase         precioBase,
            p.descripcionCompleta descripcionCompleta,
            p.descripcionCatalogo descripcionCatalogo,
            c2.categoria          categoriaProducto,
-           p2.nombre             duenioProducto
+           p2.nombre             duenioProducto,
+           p.disponible
     FROM catalogos c
              JOIN itemsCatalogo iC on c.identificador = iC.catalogo
              JOIN productos p on p.identificador = iC.producto

@@ -49,9 +49,9 @@ exports.sendChangePasswordEmail = async (req, res) => {
     const persona = await usuariosService.getUserByEmail(req.body);
     if (persona) {
       await mailService.sendChangeForgottenPassword(req.body);
-      return res.status(201).send("Email mandado");
+      return res.status(200).send("Email mandado");
     } else {
-      return res.status(401).send("Email incorrecto");
+      return res.status(404).send("Email incorrecto");
     }
   } catch (e) {
     return res.status(500).json("Error al mandar mail.");

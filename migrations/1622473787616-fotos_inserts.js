@@ -17,7 +17,15 @@ module.exports.up = function (next) {
          (3, convert(varbinary(max),'https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy/06df5d79d3de49f88985ab3e00bfd97f_9366/Botines_de_futbol_Predator_20.3_cesped_natural_seco_Blanco_EG0927_03_standard.jpg')),
          (3, convert(varbinary(max),'https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy/2f58d46e9790405e8617ab3e00bfc8b5_9366/Botines_de_futbol_Predator_20.3_cesped_natural_seco_Blanco_EG0927_06_standard.jpg')),
          (4, convert(varbinary(max),'https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy/6d85036726614f5a9b69ab7d014920bf_9366/Camiseta_Titular_Seleccion_Argentina_Blanco_FS6565_01_laydown.jpg')),
-         (4, convert(varbinary(max),'https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy/921a1e5a21494e538542ab7d01491c16_9366/Camiseta_Titular_Seleccion_Argentina_Blanco_FS6565_02_laydown_hover.jpg'))
+         (4, convert(varbinary(max),'https://assets.adidas.com/images/h_840,f_auto,q_auto:sensitive,fl_lossy/921a1e5a21494e538542ab7d01491c16_9366/Camiseta_Titular_Seleccion_Argentina_Blanco_FS6565_02_laydown_hover.jpg')),
+         (5, convert(varbinary(max),'https://i.blogs.es/ac2a65/1969_ford_mustang_boss_429-01/450_1000.jpg')),
+         (5, convert(varbinary(max),'https://i.blogs.es/bee640/1969_ford_mustang_boss_429-02/450_1000.jpg')),
+         (5, convert(varbinary(max),'https://i.blogs.es/4ffc79/1969_ford_mustang_boss_429-05/450_1000.jpg')),
+         (5, convert(varbinary(max),'https://i.blogs.es/755321/1969_ford_mustang_boss_429-04/450_1000.jpg')),
+         (6, convert(varbinary(max),'https://autoproyecto.com/wp-content/uploads/2019/08/chevrolet-camaro-zl1-1969-subasta-201740604_9.jpg')),
+         (6, convert(varbinary(max),'https://i.blogs.es/f82488/1969_chevrolet_camaro_l72_427_copo/450_1000.jpg')),
+         (6, convert(varbinary(max),'https://cdn1.mecum.com/auctions/fl0116/fl0116-229797/images/fl0116-229797_2@2x.jpg')),
+         (6, convert(varbinary(max),'https://cdn1.mecum.com/auctions/fl0116/fl0116-229797/images/fl0116-229797_3@2x.jpg'))
 `;
 
   dbConn.migrate(sqlQuery, next);

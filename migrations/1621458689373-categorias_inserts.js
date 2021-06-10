@@ -6,7 +6,7 @@ module.exports.up = function (next) {
   const sqlQuery = `INSERT INTO categorias (categoria) VALUES
   ('Antigüedades'),
   ('Indumentaria'),
-  ('Accesorios Vehiculares'),
+  ('Accesorios Vehiculares y Vehículos'),
   ('Joyería'),
   ('Deportes'),
   ('Bazar'),

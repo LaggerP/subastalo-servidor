@@ -7,7 +7,9 @@ INSERT INTO productoCategorias (producto, categoria)
 VALUES (1, 6),
        (2, 6),
        (3, 5),
-       (4, 5);
+       (4, 5),
+       (5, 3),
+       (6, 3)
 `
 
   dbConn.migrate(sqlQuery, next);

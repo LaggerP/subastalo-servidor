@@ -6,7 +6,7 @@ module.exports.up = function (next) {
       create table categorias
         (
           identificador int          not null identity,
-          categoria     varchar(32)  not null,
+          categoria     varchar(64)  not null,
           constraint pk_categorias primary key (identificador),
         )`;
 

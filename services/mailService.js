@@ -37,7 +37,7 @@ exports.sendSuccessfulVerificationEmail = async (userData) => {
         font-weight:bold;
         padding:15px 18px;
         text-decoration:none;">
-          <a href="https://google.com" style="text-decoration:none; color: black">CREAR CONTRASEÑA</a> 
+          <a href="exp://192.168.0.17:19000/--/" style="text-decoration:none; color: black">CREAR CONTRASEÑA</a> 
       </button>
     </div>
   <blockquote>
@@ -57,9 +57,26 @@ exports.sendChangeForgottenPassword = async (userData) => {
   await transporter.sendMail({
     from: `"Subastalo - Tu app de subastas" <${process.env.EMAIL_USER}>`, // sender address
     to: `${userData.email}`,
-    subject: "¡Su cuenta fue aceptada, felicitaciones!", // Subject line
+    subject: "Usted solicito un cambio de contraseña", // Subject line
     html: `
-     Usted solicito cambio de contraseña
+      <p style="text-align: center;">Reingrese su contraseña para poder seguir usando Subastalo</p>
+      <div style="text-align: center;">
+        <button style="	background-color:#ffae00;
+          border-radius:6px;
+          border:1px solid #ffffff;
+          display:inline-block;
+          cursor:pointer;
+          color:#000000;
+          font-size:13px;
+          font-weight:bold;
+          padding:15px 18px;
+          text-decoration:none;">
+            <a href="https://google.com" style="text-decoration:none; color: black">RESTABLECER CONTRASEÑA</a> 
+        </button>
+      </div>
+      <blockquote>
+        <p style="text-align: center; font-size: 10px;"><strong><em>--EMAIL GENERADO DE FORMA AUTOMATICA, NO CONTESTAR--</em></strong></p>
+      </blockquote>
     `
   }, (err, info) => {
     console.log('Email Status', info || err);

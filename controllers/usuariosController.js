@@ -44,6 +44,20 @@ exports.changePasswordController = async (req, res) => {
   }
 }
 
+exports.sendChangePasswordEmail = async (req, res) => {
+  try {
+    const persona = await usuariosService.getUserByEmail(req.body);
+    if (persona) {
+      await mailService.sendChangeForgottenPassword(req.body);
+      return res.status(201).send("Email mandado");
+    } else {
+      return res.status(401).send("Email incorrecto");
+    }
+  } catch (e) {
+    return res.status(500).json("Error al mandar mail.");
+  }
+}
+
 /**
  * @description nos permite verificar a un usuario a partir de su documento
  * @param req - posee todos los datos necesarios de la persona para cambiar el estado dentro de la base de datos.

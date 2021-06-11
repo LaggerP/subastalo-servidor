@@ -7,7 +7,7 @@ const dbConn = require('../database')
  */
 exports.getPujasByItemCatalogoId = (ItemCatalogoId) => {
   const sql = `
-    SELECT pujos.identificador idPujo, p.nombre nombrePujador, importe, pujos.ganador, horario, CONVERT(varchar(max), p.foto, 0) as foto
+    SELECT pujos.identificador idPujo, p.nombre nombrePujador, importe, pujos.ganador, horario, CONVERT(varchar(max), p.foto, 0) as foto, c.identificador as idCliente
     FROM pujos
              JOIN asistentes a on pujos.asistente = a.identificador
              JOIN clientes c on c.identificador = a.cliente

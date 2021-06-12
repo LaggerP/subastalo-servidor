@@ -19,6 +19,22 @@ exports.getAllSubastas = async (req, res) => {
 }
 
 /**
+ * @description trae todas las subastas en las que participo un cliente.
+ * @param req.
+ * @param res.
+ */
+exports.getAllSubastasByIdCliente = async (req, res) => {
+  try {
+    const subastas = await subastasService.getAllSubastasByIdCliente(req.params.id);
+    // Subastas encontradas
+    if (subastas.length > 0) return res.status(200).json({subastas});
+    return res.status(204).send('No hay contenido');
+  } catch (e) {
+    res.status(500).send('Error interno del servidor');
+  }
+}
+
+/**
  * @description trae el catalogo de una subasta a través del id de la subasta.
  * @param req - contiene el parámetro id de la subasta.
  * @param res - retorna el catalogo.
@@ -26,6 +42,31 @@ exports.getAllSubastas = async (req, res) => {
 exports.getCatalogoBySubastaId = async (req, res) => {
   try {
     let catalogo = await subastasService.getCatalogo(req.params.id);
+    // Catalogo encontrado
+    if (catalogo.length > 0) {
+      const newCatalogo = await Promise.all(catalogo.map(async producto => {
+        try {
+          producto.fotos = await subastasService.getImagesByProductoId(producto.idProducto);
+          return producto;
+        } catch (e) {
+          res.status(500).send('Error interno del servidor');
+        }
+      }))
+      res.status(200).send(newCatalogo);
+    } else return res.status(204).send('No hay contenido asociado a esta subasta');
+  } catch (e) {
+    return res.status(500).send('Error interno del servidor');
+  }
+}
+
+/**
+ * @description trae el catalogo de una subasta a través del id de la subasta y el id del cliente.
+ * @param req - contiene el parámetro id de la subasta.
+ * @param res - retorna el catalogo.
+ */
+exports.getCatalogoBySubastaIdAndIdCliente = async (req, res) => {
+  try {
+    let catalogo = await subastasService.getCatalogoBySubastaIdAndIdCliente(req.params.idSubasta, req.params.idCliente);
     // Catalogo encontrado
     if (catalogo.length > 0) {
       const newCatalogo = await Promise.all(catalogo.map(async producto => {

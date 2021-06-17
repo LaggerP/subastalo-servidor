@@ -29,3 +29,18 @@ exports.registerPersonaController = async (req, res) => {
     return res.status(500).json('Error al registrar usuario');
   }
 }
+
+
+/**
+ * @description permite registrar un nuevo usuario.
+ * @param req - posee toda la información necesaria para realizar el registro.
+ * @param res - retorna mensaje de fase uno del registro realizada con existo.
+ */
+exports.changeUserImage = async (req, res) => {
+  try {
+    const newImage = await personasService.changeProfileImage({ imageUrl: req.body.imageUrl, idCliente: req.body.idCliente});
+    return res.status(201).json("cambio de imagen realizado con éxito");
+  } catch (e) {
+    return res.status(500).json('Error al registrar usuario');
+  }
+}

@@ -21,3 +21,14 @@ exports.getPersonaByDocumento = (documento) => {
   const sql = `SELECT p.identificador, p.nombre, u.email from personas p JOIN usuarios u on p.identificador = u.identificador WHERE documento='${documento}';`
   return dbConn.service(sql)
 }
+
+
+/**
+ * @description permite cambiar la imagen del usuario
+ * @param imageUrl - posee la url de la imagen.
+ * @param idCliente - id del cliente
+ */
+exports.changeProfileImage = (imageUrl, idCliente) => {
+  const sql = `UPDATE personas SET foto=convert(varbinary, '${imageUrl}') WHERE identificador ='${idCliente}'`;
+  return dbConn.service(sql)
+}

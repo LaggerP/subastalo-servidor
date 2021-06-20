@@ -66,11 +66,24 @@ exports.sendChangePasswordEmail = async (req, res) => {
 exports.sendVerifiedAccountEmail = async (req, res) => {
   try {
     const persona = await personaService.getPersonaByDocumento(req.body.documento);
+    const user = await usuariosService.validatePassword(persona[0].email);
 
-    let emailData = {
+  
+
+    const emailData = {
       nombre: persona[0].nombre,
-      email: persona[0].email
+      email: persona[0].email,
+      codigo: user[0].password
     }
+
+    const _persona = {
+      email: persona[0].email,
+      password: user[0].password,
+      verificationAction: true
+    }
+
+    console.log(_persona)
+    console.log(emailData)
 
     let categoryArray = [
       'comun',
@@ -92,9 +105,10 @@ exports.sendVerifiedAccountEmail = async (req, res) => {
     const _cliente = await usuariosService.updateVerifiedStatusUser(clientData);
     if (_cliente) {
       await mailService.sendSuccessfulVerificationEmail(emailData);
+      await usuariosService.changePassword(_persona)
       return res.status(201).send("Verificación automática realizada con éxito");
-    } else await usuariosService.updateVerifiedStatusUser(clientData);
+    } return res.status(500).json('Error al verificar cliente');
   } catch (e) {
-    res.status(500).json('Error en el servidor.');
+    return res.status(500).json('Error en el servidor.');
   }
 }

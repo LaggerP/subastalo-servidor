@@ -24,21 +24,20 @@ exports.sendSuccessfulVerificationEmail = async (userData) => {
     subject: "¡Su cuenta fue verificada y aceptada, felicitaciones!", // Subject line
     html: `
     <h1 style="color: #5e9ca0; text-align: center;"><span style="color: #ff6600;">&iexcl;Felicitaciones ${userData.nombre} su cuenta fue aceptada!</span></h1>
-    <p style="text-align: center;">Por favor haga clic en el botón para poder ingresar su contraseña.</p>
-    <p style="text-align: center;">Una vez que ingrese su contraseña podrá hacer uso completo de la aplicación.</p>
+    <p style="text-align: center;">Por favor copie el siguiente código de acceso.</p>
+    <p style="text-align: center;">Una vez que ingrese el código podrá hacer uso completo de la aplicación una vez que ingrese su contraseña.</p>
     <div style="text-align: center;">
-      <button style="	background-color:#ffae00;
+      <h5 style="	background-color:#ffae00;
         border-radius:6px;
         border:1px solid #ffffff;
         display:inline-block;
-        cursor:pointer;
         color:#000000;
         font-size:13px;
         font-weight:bold;
         padding:15px 18px;
         text-decoration:none;">
-          <a href="exp://192.168.0.17:19000/--/" style="text-decoration:none; color: black">CREAR CONTRASEÑA</a> 
-      </button>
+          ${userData.codigo}
+      </h5>
     </div>
   <blockquote>
     <p style="text-align: center; font-size: 10px;"><strong><em>--EMAIL GENERADO DE FORMA AUTOMATICA, NO CONTESTAR--</em></strong></p>

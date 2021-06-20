@@ -1,6 +1,7 @@
 require('dotenv').config()
 const dbConn = require('../database')
 const bcrypt = require('bcrypt');
+const generator = require('generate-password');
 
 /**
  * @description se inicia la sesión del usuario, se pasa por parámetro el email correspondiente.
@@ -25,10 +26,13 @@ exports.loginUsuario = async (usuario) => {
  */
 exports.createUser = (persona) => {
   const {email, identificador} = persona;
-  let _email = bcrypt.hashSync(email, parseInt(process.env.BCRYPT_ROUNDS, 10));
+  const prevPassword = generator.generate({
+    length: 10,
+    numbers: true
+  });
   const sql = `
     INSERT INTO usuarios (identificador, email, password, primerInicio)
-    VALUES ('${identificador}', '${email}', '${_email}', 1)`;
+    VALUES ('${identificador}', '${email}', '${prevPassword}', 1)`;
 
   return dbConn.service(sql)
 }
@@ -41,7 +45,12 @@ exports.createUser = (persona) => {
 exports.changePassword = (persona) => {
   const {email, password} = persona;
   let hashedPassword = bcrypt.hashSync(password, parseInt(process.env.BCRYPT_ROUNDS, 10));
-  const sql = `UPDATE usuarios SET password='${hashedPassword}' WHERE email='${email}'`;
+  if (persona.verificationAction) {
+    console.log("actualizo solo contraseña")
+    const sql = `UPDATE usuarios SET password='${hashedPassword}' WHERE email='${email}'`;
+    return dbConn.service(sql)
+  }
+  const sql = `UPDATE usuarios SET password='${hashedPassword}', primerInicio=0 WHERE email='${email}'`;
   return dbConn.service(sql)
 }
 

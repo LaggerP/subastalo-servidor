@@ -107,6 +107,7 @@ exports.getAllUserData = (identificador) => {
              pe.documento,
              pe.nombre        nombreCompleto,
              u.primerInicio,
+             u.email,
              pe.direccion,
              pe.estado,
              CONVERT(varchar(max), pe.foto, 0) as foto,

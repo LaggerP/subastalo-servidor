@@ -32,3 +32,14 @@ exports.changeProfileImage = (imageUrl, idCliente) => {
   const sql = `UPDATE personas SET foto=convert(varbinary, '${imageUrl}') WHERE identificador ='${idCliente}'`;
   return dbConn.service(sql)
 }
+
+
+/**
+ * @description permite actualizar los datos del usuario.
+ * @param persona identificador, nombre completo y direccion del usuario.
+ */
+ exports.updatePersonData = (persona) => {
+  const {identificador, nombreCompleto, direccion} = persona;
+  const sql = `UPDATE personas SET nombre = '${nombreCompleto}', direccion = '${direccion}' WHERE identificador ='${identificador}'`;
+  return dbConn.service(sql)
+}

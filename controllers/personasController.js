@@ -44,3 +44,17 @@ exports.changeUserImage = async (req, res) => {
     return res.status(500).json('Error al registrar usuario');
   }
 }
+
+/**
+ * @description permite actualizar los datos de un usuario.
+ * @param req - datos a actualizar.
+ * @param res - retorna mensaje de éxito y fracaso.
+ */
+ exports.updateUserData = async (req, res) => {
+  try {
+    await personasService.updatePersonData(req.body);
+    return res.status(201).json("Datos actualizados correctamente");
+  } catch (e) {
+    return res.status(500).json('Error al actualizar los datos del usuario');
+  }
+}

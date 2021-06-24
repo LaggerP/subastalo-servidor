@@ -38,7 +38,7 @@ exports.registerPersonaController = async (req, res) => {
  */
 exports.changeUserImage = async (req, res) => {
   try {
-    const newImage = await personasService.changeProfileImage({ imageUrl: req.body.imageUrl, idCliente: req.body.idCliente});
+    const newImage = await personasService.changeProfileImage(req.body.imageUrl, req.body.idCliente);
     return res.status(201).json("cambio de imagen realizado con éxito");
   } catch (e) {
     return res.status(500).json('Error al registrar usuario');

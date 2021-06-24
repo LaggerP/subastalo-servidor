@@ -29,7 +29,7 @@ exports.getPersonaByDocumento = (documento) => {
  * @param idCliente - id del cliente
  */
 exports.changeProfileImage = (imageUrl, idCliente) => {
-  const sql = `UPDATE personas SET foto=convert(varbinary, '${imageUrl}') WHERE identificador ='${idCliente}'`;
+  const sql = `UPDATE personas SET foto=convert(varbinary(max), '${imageUrl}') WHERE identificador ='${idCliente}'`;
   return dbConn.service(sql)
 }
 

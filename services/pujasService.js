@@ -55,10 +55,9 @@ exports.registerPuja = ({asistente, idItem, importe}) => {
 /**
  * @description registra el horario en la que fue realizada la puja.
  * @param puja - id de la puja
- * @param horario - horario en la fue fue realizada la puja
  */
-exports.registerHorarioPuja = ({idPuja, horario}) => {
-  const sql = `INSERT INTO horarioItemPuja (puja, horario) values (${idPuja}, '${horario}')`;
+exports.registerHorarioPuja = ({idPuja}) => {
+  const sql = `INSERT INTO horarioItemPuja (puja, horario) values (${idPuja}, DATEADD(HOUR, -3, GETDATE()))`;
   return dbConn.service(sql);
 }
 

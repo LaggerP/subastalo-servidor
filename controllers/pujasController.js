@@ -21,7 +21,6 @@ exports.getPujasByCatalogoId = async (req, res) => {
  * @param res - retorna mensaje de puja realizada con éxito y el idAsistente.
  */
 exports.newPuja = async (req, res) => {
-  let horario = new Date().toLocaleString({timeZone: 'America/Argentina/Buenos_Aires'}).slice(0, 19).replace('T', ' ');
   let {idSubasta, idCliente, numeroPostor, importe, idItem} = req.body;
   try {
     const asistenteYaRegistrado = await pujasService.getAsistenteBySubastaAndCliente({idSubasta, idCliente});
@@ -30,7 +29,7 @@ exports.newPuja = async (req, res) => {
       let asistente = asistenteYaRegistrado[0].idAsistente;
       const puja = await pujasService.registerPuja({asistente, idItem, importe});
       const idPuja = puja[0].idPuja;
-      await pujasService.registerHorarioPuja({idPuja, horario});
+      await pujasService.registerHorarioPuja({idPuja});
       return res.status(201).json({
         msg: "Puja realizada con éxito",
         idAsistente: asistente,
@@ -44,7 +43,7 @@ exports.newPuja = async (req, res) => {
         let asistente = asistenteRegistrado[0].idAsistente;
         const puja = await pujasService.registerPuja({asistente, idItem, importe});
         const idPuja = puja[0].idPuja;
-        await pujasService.registerHorarioPuja({idPuja, horario})
+        await pujasService.registerHorarioPuja({idPuja})
         return res.status(201).json({
           msg: "Puja realizada con éxito",
           idAsistente: asistente,

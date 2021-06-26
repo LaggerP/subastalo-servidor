@@ -38,7 +38,7 @@ exports.loginController = async (req, res) => {
 exports.changePasswordController = async (req, res) => {
   try {
     await usuariosService.changePassword(req.body);
-    return res.status(201).json({msg: "Nueva contraseña generada/cambiada"});
+    return res.status(201).json({status:201, msg: "Nueva contraseña generada/cambiada"});
   } catch (e) {
     return res.status(500).json('Error al cambiar la contraseña.');
   }

@@ -10,11 +10,11 @@ exports.createProducto = (producto) => {
     revisor,
     duenio
   } = producto
-
+  
   const sql = `
     INSERT INTO productos (fecha, disponible, descripcionCatalogo, descripcionCompleta, revisor, duenio)
-    VALUES (${fecha}, '${disponible}', '${descripcionCatalogo}', '${descripcionCompleta}', '${revisor}', '${duenio}');
+    VALUES ('${fecha}', '${disponible}', '${descripcionCatalogo}', '${descripcionCompleta}', '${revisor}', '${duenio}');
  `
-  return dbConn.service(sql)
 
+  return dbConn.service(sql)
 };

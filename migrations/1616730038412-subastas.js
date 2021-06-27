@@ -5,7 +5,7 @@ const dbConn = require('../database')
 module.exports.up = function (next) {
   const sqlQuery = `create table subastas(
     identificador int not null identity,
-    fecha date constraint chkFecha check (fecha > dateAdd(dd, 10, getdate())),
+    fecha date,
     hora time not null,
     estado varchar(10) constraint chkES check (estado in ('abierta','cerrada')),
     subastador int null,

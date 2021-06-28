@@ -38,7 +38,7 @@ exports.getAllProductsByIdClient = (idCliente) => {
   FROM productoSeguimiento ps
     JOIN productos p ON p.identificador = ps.producto
 	  JOIN personas per ON per.identificador = p.revisor
-	  JOIN itemsCatalogo ic ON ic.producto = p.identificador
+	  LEFT JOIN itemsCatalogo ic ON ic.producto = p.identificador
   WHERE p.duenio = ${idCliente};
   `
 

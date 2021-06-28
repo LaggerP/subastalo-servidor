@@ -27,6 +27,8 @@ exports.getAllProductsByIdClient = (idCliente) => {
   const sql = `
   SELECT
     p.identificador         idProducto,
+	  pc.categoria            idCategoria,
+	  c.categoria,
 	  ic.precioBase,
     p.fecha,
     p.descripcionCatalogo,
@@ -36,8 +38,10 @@ exports.getAllProductsByIdClient = (idCliente) => {
     p.duenio, 
     ps.estado
   FROM productoSeguimiento ps
-    JOIN productos p ON p.identificador = ps.producto
+	  JOIN productos p ON p.identificador = ps.producto
 	  JOIN personas per ON per.identificador = p.revisor
+	  LEFT JOIN productoCategorias pc ON pc.producto = p.identificador
+	  LEFT JOIN categorias c ON c.identificador = pc.categoria
 	  LEFT JOIN itemsCatalogo ic ON ic.producto = p.identificador
   WHERE p.duenio = ${idCliente};
   `

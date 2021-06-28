@@ -18,7 +18,7 @@ exports.getAllSubastas = () => {
      FROM subastas s
          JOIN subastadores s2 on s2.identificador = s.subastador
          JOIN personas p on s2.identificador = p.identificador
-     WHERE s.estado = 'abierta';`
+     WHERE s.estado = 'abierta' AND s.fecha >= CONVERT(DATE, DATEADD(HOUR, -3, GETDATE()));`
   return dbConn.service(sql);
 }
 

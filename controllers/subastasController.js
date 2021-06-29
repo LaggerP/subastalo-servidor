@@ -114,10 +114,11 @@ exports.getItemSubastandoseBySubastaId = async (req, res) => {
  * @param res - retorna el correcto cambio de estado
  */
 exports.changeEstadoItemSubastandose = async (req, res) => {
-  const {idItemCatalogo, idProducto} = req.body
+  const {idItemCatalogo, idProducto, idPujo} = req.body
   try {
     await subastasService.changeEstadoProducto(idProducto);
-    await subastasService.changeEstadoItemCatalogo(idItemCatalogo)
+    await subastasService.changeEstadoItemCatalogo(idItemCatalogo);
+    await subastasService.changeEstadoPujoGanador(idPujo);
     res.status(201).send('Estados cambiados');
   } catch (e) {
     return res.status(500).send('Error interno del servidor');

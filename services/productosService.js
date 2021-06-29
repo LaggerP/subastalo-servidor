@@ -23,8 +23,8 @@ exports.registerCategoriaProducto = ({idProducto, categoria}) => {
   return dbConn.service(sql)
 };
 
-exports.registerFotosProducto = (idProducto, imageUrl) => {
-  const sql = `INSERT INTO fotos (idProducto, foto) 
+exports.registerFotosProducto = ({idProducto, imageUrl}) => {
+  const sql = `INSERT INTO fotos (producto, foto) 
   VALUES (${idProducto}, CONVERT(varbinary(max), '${imageUrl}'))`;
   return dbConn.service(sql)
 }

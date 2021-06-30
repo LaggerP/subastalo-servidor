@@ -47,23 +47,24 @@ exports.getAllSubastasByIdCliente = (idCliente) => {
  */
 exports.getCatalogo = (idSubasta) => {
   const sql = `
-    SELECT c.identificador       idCatalogo,
-           p.identificador       idProducto,
-           c.descripcion,
-           iC.precioBase         precioBase,
-           p.descripcionCompleta descripcionCompleta,
-           p.descripcionCatalogo descripcionCatalogo,
-           c2.categoria          categoriaProducto,
-           p2.nombre             duenioProducto,
-           p.disponible
-    FROM catalogos c
-             JOIN itemsCatalogo iC on c.identificador = iC.catalogo
-             JOIN productos p on p.identificador = iC.producto
-             JOIN duenios d on d.identificador = p.duenio
-             JOIN personas p2 on p2.identificador = d.identificador
-             JOIN productoCategorias pC on p.identificador = pC.producto
-             JOIN productoCategorias pC2 on p.identificador = pC2.producto
-             JOIN categorias c2 on c2.identificador = pC.categoria
+      SELECT c.identificador       idCatalogo,
+             p.identificador       idProducto,
+             c.descripcion,
+             iC.precioBase         precioBase,
+             p.descripcionCompleta descripcionCompleta,
+             p.descripcionCatalogo descripcionCatalogo,
+             c2.categoria          categoriaProducto,
+             p2.nombre             duenioProducto,
+             p.disponible,
+             s.categoria as        categoriaSubasta
+      FROM catalogos c
+               JOIN itemsCatalogo iC on c.identificador = iC.catalogo
+               JOIN productos p on p.identificador = iC.producto
+               JOIN duenios d on d.identificador = p.duenio
+               JOIN personas p2 on p2.identificador = d.identificador
+               JOIN productoCategorias pC on p.identificador = pC.producto
+               JOIN categorias c2 on c2.identificador = pC.categoria
+               JOIN subastas s on c.subasta = s.identificador
       WHERE subasta = '${idSubasta}'`;
   return dbConn.service(sql);
 }

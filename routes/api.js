@@ -4,6 +4,7 @@ const subastasRoutes = require('./subastas');
 const metodosDePagoRoutes = require('./metodosDePago');
 const pujasRoutes = require('./pujas');
 const productosRoutes = require('./productos');
+const historialRoutes = require('./historial')
 
 router.get('/api', function (req, res) {
   res.json({msg: "funcionando"})
@@ -23,5 +24,8 @@ router.use('/api/pujas/', pujasRoutes);
 
 // Todos los endpoints asociados a los productos
 router.use('/api/productos/', productosRoutes);
+
+// Todos los endpoints asociados al historial
+router.use('/api/historial/', historialRoutes);
 
 module.exports = router;

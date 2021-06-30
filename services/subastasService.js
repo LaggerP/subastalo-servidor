@@ -153,3 +153,12 @@ exports.changeEstadoItemCatalogo = (idItemCatalogo) => {
   const sql = `UPDATE itemsCatalogo SET subastado = 'si' WHERE identificador = ${idItemCatalogo};`
   return dbConn.service(sql);
 }
+/**
+ * @description cambia el estado del ganador del puja a 'si'
+ * @param idPujo 
+ */
+
+exports.changeEstadoPujoGanador = (idPujo) => {
+  const sql = `UPDATE pujos SET ganador = 'si' WHERE identificador = ${idPujo};`
+  return dbConn.service(sql);
+}

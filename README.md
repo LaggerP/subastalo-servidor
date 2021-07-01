@@ -63,4 +63,11 @@ podremos crear todas las tablas en nuestra base de datos SQL Server.
 > Para crear nuevas migraciones tirar el siguiente comando ``migrate create NOMBRE_MIGRATE``
 
 
+Stack utilizado:
+- Node.JS
+- Express
+- Microsoft SQL Server
+- Socket.io
+
+
 #### ÚLTIMA MODIFICACIÓN: 1 DE JULIO 2021

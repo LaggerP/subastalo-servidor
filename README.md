@@ -30,6 +30,9 @@ Recomiendo usar Docker para levantar un servidor SQL Server. Para instalar Docke
 ```
 Dicho comando creará una imagen (si es necesario) y un contenedor Docker que tendrá el SQL Server. Una vez terminada esta parte, podremos continuar con la configuración del código.
 
+### Es posible también correr el proyecto con otro servicio que no sea Docker, pero realmente no esta probado de esa forma. Todo funcionamiento esta realizado y comprobado bajo Docker.
+### Si se tiene MSSQL instalado y corriendo el servicio de MSSQL en la computadora, el proyecto va a funcionar.
+
 1- Correr ``npm install`` para instalar todas las dependencias del proyecto. (es necesario que se corra ``npm 
 install -g migrate`` para instalar la dependencia migrate que se encargará de crear las tablas)
 
@@ -60,6 +63,4 @@ podremos crear todas las tablas en nuestra base de datos SQL Server.
 > Para crear nuevas migraciones tirar el siguiente comando ``migrate create NOMBRE_MIGRATE``
 
 
-
-### README EN CONSTRUCCIÓN....
-#### ÚLTIMA MODIFICACIÓN: 24 DE MAYO 2021
+#### ÚLTIMA MODIFICACIÓN: 1 DE JULIO 2021

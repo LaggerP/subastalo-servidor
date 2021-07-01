@@ -1,23 +1,33 @@
 require('dotenv').config();
 const dbConn = require('../database');
 
-exports.createProducto = (producto) => {
-  const {
-    fecha,
-    disponible,
-    descripcionCatalogo,
-    descripcionCompleta,
-    revisor,
-    duenio
-  } = producto
-
+exports.createProducto = (disponible, descripcionCatalogo, descripcionCompleta, revisor, duenio) => {
   const sql = `
     INSERT INTO productos (fecha, disponible, descripcionCatalogo, descripcionCompleta, revisor, duenio)
-    VALUES ('${fecha}', '${disponible}', '${descripcionCatalogo}', '${descripcionCompleta}', '${revisor}', '${duenio}');
- `
+    VALUES (GETDATE(), '${disponible}', '${descripcionCatalogo}', '${descripcionCompleta}', ${revisor}, ${duenio}) SELECT SCOPE_IDENTITY() AS idProducto;`;
 
   return dbConn.service(sql)
 };
+
+exports.registerEstadoProducto = ({idProducto, estado}) => {
+  const sql = `
+  INSERT INTO productoSeguimiento (producto, estado)
+  VALUES (${idProducto}, '${estado}')`;
+  return dbConn.service(sql)
+};
+
+exports.registerCategoriaProducto = ({idProducto, categoria}) => {
+  const sql = `
+  INSERT INTO productoCategorias (producto, categoria)
+  VALUES (${idProducto}, ${categoria})`;
+  return dbConn.service(sql)
+};
+
+exports.registerFotosProducto = ({idProducto, imageUrl}) => {
+  const sql = `INSERT INTO fotos (producto, foto) 
+  VALUES (${idProducto}, CONVERT(varbinary(max), '${imageUrl}'))`;
+  return dbConn.service(sql)
+}
 
 /**
  * @description obtiene todos los productos por cliente

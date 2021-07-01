@@ -2,9 +2,17 @@ const productosService = require('../services/productosService');
 const subastasService = require('../services/subastasService');
 
 exports.createNewProducto = async (req, res) => {
-  const producto = req.body;
+  let {disponible, descripcionCatalogo, descripcionCompleta, revisor, duenio, estado, categoria, fotos} = req.body;
   try {
-    await productosService.createProducto(producto);
+    const producto = await productosService.createProducto(disponible, descripcionCatalogo, descripcionCompleta, revisor, duenio);
+    console.log("Producto Creado", producto);
+    const idProducto = producto[0].idProducto;
+    console.log("idProducto: ", idProducto);
+    await productosService.registerEstadoProducto({idProducto, estado});
+    await productosService.registerCategoriaProducto({idProducto, categoria});
+    for (let foto of fotos) {
+      await productosService.registerFotosProducto({idProducto, imageUrl: foto});
+    }
     return res.status(201).json({ status: 201, msg: "Nuevo producto cargado con éxito" });
   } catch (e) {
     return res.status(500).send("Error interno del servidor");

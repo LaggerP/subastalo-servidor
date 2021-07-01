@@ -10,7 +10,9 @@ exports.createNewProducto = async (req, res) => {
     console.log("idProducto: ", idProducto);
     await productosService.registerEstadoProducto({idProducto, estado});
     await productosService.registerCategoriaProducto({idProducto, categoria});
-    await productosService.registerFotosProducto({idProducto, imageUrl: fotos});
+    for (let foto of fotos) {
+      await productosService.registerFotosProducto({idProducto, imageUrl: foto});
+    }
     return res.status(201).json({ status: 201, msg: "Nuevo producto cargado con éxito" });
   } catch (e) {
     return res.status(500).send("Error interno del servidor");
